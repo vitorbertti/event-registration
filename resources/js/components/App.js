@@ -1,19 +1,17 @@
-import React from 'react'
+import React from "react";
 
-function App() {
-   return (
-       <div className="container">
-           <div className="row justify-content-center">
-               <div className="col-md-8">
-                   <div className="card">
-                       <div className="card-header">Event Registration</div>
+import Nav from './Nav';
+import Events from './Events';
 
-                       <div className="card-body">Events</div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   );
+export default function App() {
+    
+    return (
+        <div>
+            <Nav />
+            <div className="container mt-3">
+                <h1>Welcome to Event Registration!</h1>
+                <Events />
+            </div>
+        </div>
+    );
 }
-
-export default App;
