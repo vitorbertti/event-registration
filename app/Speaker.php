@@ -4,17 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Speaker extends Model
 {
-
    protected $fillable = [
-      'id', 'place', 'date', 'topic', 'number_people', 'batch', 'phone', 'email', 'social_network', 'event_speaker'
+      'id', 'name', 'description', 'phone', 'email', 'social_network', 'event_speaker'
    ];
-
-   public function batchs()
-   {
-      return $this->hasMany(Batch::class);
-   }
 
    public function socialNetworks()
    {
@@ -25,5 +19,4 @@ class Event extends Model
    {
       return $this->hasMany(EventSpeaker::class);
    }
-
 }
