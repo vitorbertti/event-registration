@@ -1,11 +1,10 @@
 <?php
 
-use App\Event;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateTableBatchs extends Migration
+class CreateTableEventSpeakers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +13,15 @@ class CreateTableBatchs extends Migration
      */
     public function up()
     {
-        Schema::create('batchs', function (Blueprint $table) {
+        Schema::create('event_speakers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('price');
-            $table->integer('quantity');
+            $table->integer('speaker_id');
             $table->integer('event_id');
+            $table->json('speaker');
             $table->json('event');
             $table->timestamps();
 
+            $table->foreign('speaker_id')->references('speaker')->on('id');
             $table->foreign('event_id')->references('events')->on('id');
         });
     }
@@ -34,6 +33,6 @@ class CreateTableBatchs extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batchs');
+        Schema::dropIfExists('event_speakers');
     }
 }

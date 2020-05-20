@@ -11,7 +11,7 @@ class Event extends Model
       'id', 'place', 'date', 'topic', 'number_people', 'batch', 'phone', 'email', 'social_network', 'event_speaker'
    ];
 
-   public function batchs()
+   public function batches()
    {
       return $this->hasMany(Batch::class);
    }
@@ -21,7 +21,7 @@ class Event extends Model
       return $this->hasMany(SocialNetwork::class);
    }
 
-   public function eventSpeaker()
+   public function eventSpeakers()
    {
       return $this->hasMany(EventSpeaker::class);
    }

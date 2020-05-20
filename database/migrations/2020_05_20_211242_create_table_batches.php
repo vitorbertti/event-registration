@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableEventSpeaker extends Migration
+class CreateTableBatches extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTableEventSpeaker extends Migration
      */
     public function up()
     {
-        Schema::create('table_event_speaker', function (Blueprint $table) {
+        Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->integer('speaker_id');
+            $table->string('name');
+            $table->decimal('price');
+            $table->integer('quantity');
             $table->integer('event_id');
-            $table->json('speaker');
             $table->json('event');
             $table->timestamps();
 
-            $table->foreign('speaker_id')->references('speaker')->on('id');
             $table->foreign('event_id')->references('events')->on('id');
         });
     }
@@ -33,6 +33,6 @@ class CreateTableEventSpeaker extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_event_speaker');
+        Schema::dropIfExists('batches');
     }
 }

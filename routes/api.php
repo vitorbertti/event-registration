@@ -21,3 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/events', 'EventController@index');
 Route::post('/events/create', 'EventController@store');
 Route::get('/events/{id}', 'EventController@show');
+
+Route::get('/batches', 'BatchController@index');
+
+Route::get('/speakers', 'SpeakerController@index');
+
+Route::get('/socialnetworks', 'SocialNetworkController@index');
+
+Route::get('/eventspeakers', 'EventSpeakerController@index');
+

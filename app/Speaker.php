@@ -15,7 +15,7 @@ class Speaker extends Model
       return $this->hasMany(SocialNetwork::class);
    }
 
-   public function eventSpeaker()
+   public function eventSpeakers()
    {
       return $this->hasMany(EventSpeaker::class);
    }
