@@ -18,11 +18,10 @@ class CreateTableBatches extends Migration
             $table->string('name');
             $table->decimal('price');
             $table->integer('quantity');
-            $table->integer('event_id');
-            $table->json('event');
+            $table->unsignedBigInteger('event');
             $table->timestamps();
 
-            $table->foreign('event_id')->references('events')->on('id');
+            $table->foreign('event')->references('events')->on('id');
         });
     }
 

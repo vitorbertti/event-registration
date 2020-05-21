@@ -17,14 +17,12 @@ class CreateTableSocialNetworks extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->integer('event_id');
-            $table->integer('speaker_id');
-            $table->json('event');
-            $table->json('speaker');
+            $table->unsignedBigInteger('event');
+            $table->unsignedBigInteger('speaker');
             $table->timestamps();
 
-            $table->foreign('event_id')->references('events')->on('id');
-            $table->foreign('speaker_id')->references('speaker')->on('id');
+            $table->foreign('event')->references('events')->on('id');
+            $table->foreign('speaker')->references('speakers')->on('id');
         });
     }
 

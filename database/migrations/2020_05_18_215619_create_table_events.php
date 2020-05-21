@@ -21,9 +21,6 @@ class CreateTableEvents extends Migration
             $table->dateTime('date', 0);
             $table->string('phone');
             $table->string('email');
-            $table->json('batch');
-            $table->json('social_network');
-            $table->json('event_speaker');
             $table->timestamps();
         });
     }

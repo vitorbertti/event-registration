@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialNetwork extends Model
 {
-   protected $fillable = [
-      'id', 'name', 'url', 'event', 'speaker'
-   ];
+   protected $table = 'social_networks';
 
    public function events()
    {
-      return $this->belongsTo(Event::class);
+      return $this->belongsTo(Event::class, 'event', 'id');
    }
 
    public function speakers()
    {
-      return $this->belongsTo(Speaker::class);
+      return $this->belongsTo(Speaker::class, 'speaker', 'id');
    }
 }

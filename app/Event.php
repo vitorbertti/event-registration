@@ -6,24 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-
-   protected $fillable = [
-      'id', 'place', 'date', 'topic', 'number_people', 'batch', 'phone', 'email', 'social_network', 'event_speaker'
-   ];
+   protected $table = 'events';
 
    public function batches()
    {
-      return $this->hasMany(Batch::class);
+      return $this->hasMany(Batch::class, 'event', 'id');
    }
 
    public function socialNetworks()
    {
-      return $this->hasMany(SocialNetwork::class);
+      return $this->hasMany(SocialNetwork::class, 'event', 'id');
    }
 
-   public function eventSpeakers()
+   public function speakers()
    {
-      return $this->hasMany(EventSpeaker::class);
+      return $this->hasMany(Speaker::class, 'event_speakers', 'event', 'speaker');
    }
 
 }

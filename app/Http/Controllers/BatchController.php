@@ -8,7 +8,7 @@ class BatchController extends Controller
 {
    public function index()
    {
-      $resource = Batch::all();
+      $resource = Batch::get();
       return response()->json($resource);
    }
 }

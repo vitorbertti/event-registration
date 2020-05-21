@@ -19,8 +19,6 @@ class CreateTableSpeakers extends Migration
             $table->string('description');
             $table->string('phone');
             $table->string('email');
-            $table->json('social_network');
-            $table->json('event_speaker');
             $table->timestamps();
         });
     }

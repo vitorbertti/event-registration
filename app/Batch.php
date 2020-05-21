@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Batch extends Model
 {
-   protected $fillable = [
-      'id', 'name', 'price', 'quantity', 'eventId', 'event'
-   ];
+   protected $table = 'batches';
 
    public function event()
    {
-      return $this->belongsTo(Event::class);
+      return $this->belongsTo(Event::class, 'event', 'id');
    }
 }
