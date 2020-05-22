@@ -24,6 +24,24 @@ export default function Nav() {
                   </li>
                </ul>
             </div>
+
+            <ul className="navbar-nav">
+               <li className="nav-item dropdown">
+               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  User
+               </a>
+               <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a className="dropdown-item" href="#">
+                     Profile
+                  </a>
+                  <div role="separator" className="divider"></div>
+                  <a className="dropdown-item" href="#">
+                     Exit
+                  </a>
+               </div>
+               </li>
+         </ul>
          </div>
       </nav>
    )
