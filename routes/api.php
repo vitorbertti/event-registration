@@ -21,12 +21,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/events', 'EventController@index');
 Route::post('/events/create', 'EventController@store');
 Route::get('/events/{id}', 'EventController@show');
+Route::put('/events/{id}', 'EventController@update');
+Route::delete('/events/{id}', 'EventController@destroy');
 
 Route::get('/batches', 'BatchController@index');
+Route::post('/batches/create', 'BatchController@store');
+Route::get('/batches/{id}', 'BatchController@show');
+Route::put('/batches/{id}', 'BatchController@update');
+Route::delete('/batches/{id}', 'BatchController@destroy');
 
 Route::get('/speakers', 'SpeakerController@index');
+Route::post('/speakers/create', 'SpeakerController@store');
+Route::get('/speakers/{id}', 'SpeakerController@show');
+Route::put('/speakers/{id}', 'SpeakerController@update');
+Route::delete('/speakers/{id}', 'SpeakerController@destroy');
 
 Route::get('/socialnetworks', 'SocialNetworkController@index');
-
-Route::get('/eventspeakers', 'EventSpeakerController@index');
-
+Route::post('/socialnetworks/create', 'SocialNetworkController@store');
+Route::get('/socialnetworks/{id}', 'SocialNetworkController@show');
+Route::put('/socialnetworks/{id}', 'SocialNetworkController@update');
+Route::delete('/socialnetworks/{id}', 'SocialNetworkController@destroy');

@@ -21,7 +21,7 @@ class CreateTableBatches extends Migration
             $table->unsignedBigInteger('event');
             $table->timestamps();
 
-            $table->foreign('event')->references('events')->on('id');
+            $table->foreign('event')->references('id')->on('events');
         });
     }
 

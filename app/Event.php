@@ -8,6 +8,8 @@ class Event extends Model
 {
    protected $table = 'events';
 
+   protected $fillable = ['topic', 'place', 'number_people', 'date', 'phone', 'email'];
+
    public function batches()
    {
       return $this->hasMany(Batch::class, 'event', 'id');

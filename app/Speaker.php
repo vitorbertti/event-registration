@@ -8,6 +8,8 @@ class Speaker extends Model
 {
    protected $table = 'speakers';
 
+   protected $fillable = ['name', 'description', 'phone', 'email'];
+
    public function socialNetworks()
    {
       return $this->hasMany(SocialNetwork::class, 'speaker', 'id');
