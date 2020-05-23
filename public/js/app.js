@@ -65865,14 +65865,91 @@ function Events() {
       filter = _useState4[0],
       setFilter = _useState4[1];
 
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      topic = _useState6[0],
+      setTopic = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      place = _useState8[0],
+      setPlace = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      datetime = _useState10[0],
+      setDatetime = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState12 = _slicedToArray(_useState11, 2),
+      numberPeople = _useState12[0],
+      setNumberPeople = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      phone = _useState14[0],
+      setPhone = _useState14[1];
+
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState16 = _slicedToArray(_useState15, 2),
+      email = _useState16[0],
+      setEmail = _useState16[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/events/").then(function (response) {
       setEventList(response.data);
     });
+
+    var test = function test() {
+      console.log('teste');
+    }; // test();
+
   }, []);
 
   function handleChange(value) {
     setFilter(value);
+  }
+
+  function handleFormChange(e) {
+    if (e.target.name === 'topic') {
+      setTopic(e.target.value);
+    } else if (e.target.name === 'place') {
+      setPlace(e.target.value);
+    } else if (e.target.name === 'datetime') {
+      setDatetime(e.target.value);
+    } else if (e.target.name === 'numberpeople') {
+      setNumberPeople(e.target.value);
+    } else if (e.target.name === 'phone') {
+      setPhone(e.target.value);
+    } else if (e.target.name === 'email') {
+      setEmail(e.target.value);
+    } else {
+      return;
+    }
+  }
+
+  function save(e) {
+    e.preventDefault();
+    var date = datetime + ':00';
+    date = date.replace('T', ' ');
+    console.log(date.length);
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].post('/events/create', {
+      topic: topic,
+      place: place,
+      number_people: numberPeople,
+      date: date,
+      phone: phone,
+      email: email
+    }).then(function (response) {
+      Alert("The event ".concat(topic, " was created."));
+    });
+  }
+
+  function remove(e, event) {
+    e.preventDefault();
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]("/events/".concat(event.id)).then(function (response) {
+      alert("The event ".concat(event.topic, " was deleted."));
+    });
   }
 
   function showTbody() {
@@ -65945,7 +66022,10 @@ function Events() {
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn btn-sm btn-danger",
           "data-toggle": "tooltip",
-          title: "Delete"
+          title: "Delete",
+          onClick: function onClick(e) {
+            return remove(e, event);
+          }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           className: "bi bi-trash-fill",
           width: "1em",
@@ -66018,7 +66098,81 @@ function Events() {
   }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "btn btn-primary"
-  }, "Save changes"))))));
+  }, "Save changes"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: save
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "topic",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-8"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Place"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "place",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Date and time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "datetime-local",
+    className: "form-control",
+    name: "datetime",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Number of people"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "numberpeople",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "phone",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "email",
+    onChange: function onChange(e) {
+      return handleFormChange(e);
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-secondary"
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "submit",
+    className: "btn btn-primary",
+    value: "Save changes"
+  })));
 }
 
 /***/ }),
