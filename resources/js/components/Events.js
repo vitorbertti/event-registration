@@ -27,9 +27,13 @@ export default function Events() {
       setAction(event);
    }
 
+   function deleteEvent(e, event) {
+      setAction(event);
+   }
 
    function remove(e, event) {
       e.preventDefault();
+      $('#modalDelete').modal('hide');
       api.delete(`/events/${event.id}`).then(response => {
          alert(`The event ${event.topic} was deleted.`)
       });
@@ -54,13 +58,13 @@ export default function Events() {
                      </td>
                      <td>
                      <div className="btn-group"> 
-                        <button type="button" className="btn btn-sm btn-success" data-toggle="modal" title="Edit" data-target="#modal">                         
+                        <button className="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
                         <svg className="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd"/>
                         </svg>
                         </button>
-                        <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete">
+                        <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" data-toggle="modal" data-target="#modalDelete" onClick={e => deleteEvent(e, event)}>
                         <svg className="bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path fillRule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clipRule="evenodd"/>
                         </svg>
@@ -86,13 +90,13 @@ export default function Events() {
                   <td>{event.batches && event.batches.length ? event.batches[0].name : 'Not found'} </td>
                   <td>
                      <div className="btn-group"> 
-                        <button className="btn btn-sm btn-success" type="button"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
+                        <button className="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
                         <svg className="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd"/>
                         </svg>
                         </button>
-                        <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" onClick={e => remove(e, event)}>
+                        <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" data-toggle="modal" data-target="#modalDelete" onClick={e => deleteEvent(e, event)}>
                         <svg className="bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path fillRule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clipRule="evenodd"/>
                         </svg>
@@ -159,7 +163,54 @@ export default function Events() {
             </div>
          </div>
 
-         
+         <div className="modal fade" id="modalDelete" tabIndex="-1" role="dialog" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+               <div className="modal-content">
+                  <div className="modal-header">
+                        <h4 className="modal-title " id="modalDeleteLabel">Delete {action === null ? '' : action.topic} event </h4>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                  </div>
+                  <div className="modal-body">
+                     <table class="table table-bordered text-center">
+                        <tr>
+                           <th scope="row">Id</th>
+                           <td>{action === null ? '' : action.id}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Topic</th>
+                           <td>{action === null ? '' : action.topic}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Place</th>
+                           <td>{action === null ? '' : action.place}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Date</th>
+                           <td>{action === null ? '' : action.date}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Number of People</th>
+                           <td>{action === null ? '' : action.number_people}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Phone</th>
+                           <td>{action === null ? '' : action.phone}</td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Email</th>
+                           <td>{action === null ? '' : action.email}</td>
+                        </tr>
+                     </table>
+                  </div>    
+                  <div className="modal-footer btn-group d-flex">      
+                        <button type="button" className="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" className="btn btn-outline-danger" onClick={e => remove(e, action)}>Delete</button>
+                  </div>
+               </div>
+            </div>
+         </div>
 
       </div>
    )
