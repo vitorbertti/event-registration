@@ -1,74 +1,32 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../services/api";
+import EventForm from './EventForm'
 
 export default function Events() {
 
    const [eventList, setEventList] = useState([]);
    const [filter, setFilter] = useState('');
-   const [topic, setTopic] = useState('');
-   const [place, setPlace] = useState('');
-   const [datetime, setDatetime] = useState(null);
-   const [numberPeople, setNumberPeople] = useState(0);
-   const [phone, setPhone] = useState('');
-   const [email, setEmail] = useState('');
+   const [action, setAction] = useState(null);
 
    useEffect(() => {
       api.get("/events/").then(response => {
          setEventList(response.data);
       });
-
-      const test = () => {
-         console.log('teste');
-         
-      }
-      // test();
    }, []);
 
    function handleChange(value) {
       setFilter(value);
    }
 
-   function handleFormChange(e) {
-      if(e.target.name === 'topic') {
-         setTopic(e.target.value);
-      }
-      else if(e.target.name === 'place') {
-         setPlace(e.target.value);    
-      }
-      else if(e.target.name === 'datetime') {
-         setDatetime(e.target.value);  
-      }
-      else if(e.target.name === 'numberpeople') {
-         setNumberPeople(e.target.value);
-      }
-      else if(e.target.name === 'phone') {
-         setPhone(e.target.value);
-      }
-      else if(e.target.name === 'email') {
-         setEmail(e.target.value);
-      }else{
-         return;
-      }
+   function newEvent() {
+      setAction(null);
    }
 
-   function save(e) {
-      e.preventDefault();
-      let date = datetime+':00';
-      date = date.replace('T', ' ');
-      console.log(date.length);
-      
-      api.post('/events/create', {
-         topic,
-         place,
-         number_people: numberPeople,
-         date,
-         phone,
-         email,
-      }).then(response => {
-         Alert(`The event ${topic} was created.`);
-      });
+   function editEvent(e, event) {
+      setAction(event);
    }
+
 
    function remove(e, event) {
       e.preventDefault();
@@ -128,7 +86,7 @@ export default function Events() {
                   <td>{event.batches && event.batches.length ? event.batches[0].name : 'Not found'} </td>
                   <td>
                      <div className="btn-group"> 
-                        <button className="btn btn-sm btn-success" type="button"  data-toggle="modal" data-target="#modal">                         
+                        <button className="btn btn-sm btn-success" type="button"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
                         <svg className="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                            <path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"/>
                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clipRule="evenodd"/>
@@ -163,12 +121,21 @@ export default function Events() {
 
    return (
       <div>
-         <form className="form-inline" action="">
-            <div className="form-group mb-2">
-               <input onChange={e => handleChange(e.target.value)} type="text" className="form-control mr-2" placeholder="Search the topic"/>
+         <div className="d-flex">
+            <div className="form-inline mr-auto">
+               <div className="form-group mb-2">
+                  <input onChange={e => handleChange(e.target.value)} type="text" className="form-control mr-2" placeholder="Search the topic"/>
+               </div>
             </div>
-         </form>
-         <h3>Filtro: {filter}</h3>
+            <div>
+               <button className="btn btn-outline-primary" data-toggle="modal" data-target="#modal" onClick={newEvent}>
+                  <svg className="bi bi-plus-circle-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                     <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
+                  </svg>&nbsp;
+                  New Event
+               </button>
+            </div>
+         </div>
          <table className="table table-striped">
             <thead className="thead-dark">
                <tr>
@@ -185,61 +152,14 @@ export default function Events() {
          </table>
 
          <div className="modal fade" id="modal" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog modal-lg" role="document">
                <div className="modal-content">
-                  <div className="modal-header">
-                  <h5 className="modal-title" id="modalLabel">Modal title</h5>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                  </button>
-                  </div>
-                  <div className="modal-body">
-                  ...
-                  </div>
-                  <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary">Save changes</button>
-                  </div>
+                  <EventForm data={action}/>
                </div>
             </div>
          </div>
 
-         <form onSubmit={save}>
-            <div className="form-row">
-               <div className="form-group col-md-12">
-                  <label>Topic</label>
-                  <input required type="text" className="form-control" name="topic" onChange={e => handleFormChange(e)}/>
-               </div>
-            </div>  
-            <div className="form-row">
-               <div className="form-group col-md-8">
-                  <label>Place</label>
-                  <input required type="text" className="form-control" name="place" onChange={e => handleFormChange(e)}/>
-               </div>
-               <div className="form-group col-md-4">
-                  <label>Date and time</label>
-                  <input required type="datetime-local" className="form-control" name="datetime" onChange={e => handleFormChange(e)}/>
-               </div>
-            </div>  
-            <div className="form-row">
-               <div className="form-group col-md-2">
-                  <label>Number of people</label>
-                  <input required type="text" className="form-control" name="numberpeople" onChange={e => handleFormChange(e)}/>
-               </div>
-               <div className="form-group col-md-4">
-                  <label>Phone</label>
-                  <input required type="text" className="form-control" name="phone" onChange={e => handleFormChange(e)}/>
-               </div>
-               <div className="form-group col-md-6">
-                  <label>Email</label>
-                  <input required type="text" className="form-control" name="email" onChange={e => handleFormChange(e)}/>
-               </div>
-            </div>   
          
-            <br/>
-            <button className="btn btn-secondary">Close</button>
-            <input type="submit" className="btn btn-primary" value="Save changes"></input>
-         </form>
 
       </div>
    )

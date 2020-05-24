@@ -65827,16 +65827,16 @@ function App() {
 
 /***/ }),
 
-/***/ "./resources/js/components/Events.js":
-/*!*******************************************!*\
-  !*** ./resources/js/components/Events.js ***!
-  \*******************************************/
+/***/ "./resources/js/components/EventForm.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/EventForm.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Events; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EventForm; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/api */ "./resources/js/services/api.js");
@@ -65854,6 +65854,229 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+function EventForm(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      id = _useState2[0],
+      setId = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      topic = _useState4[0],
+      setTopic = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      place = _useState6[0],
+      setPlace = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      datetime = _useState8[0],
+      setDatetime = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState10 = _slicedToArray(_useState9, 2),
+      numberPeople = _useState10[0],
+      setNumberPeople = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState12 = _slicedToArray(_useState11, 2),
+      phone = _useState12[0],
+      setPhone = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      email = _useState14[0],
+      setEmail = _useState14[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (props.data !== null) {
+      var date = props.data.date.substr(0, 16);
+      date = date.replace(' ', 'T');
+      setId(props.data.id);
+      setTopic(props.data.topic);
+      setPlace(props.data.place);
+      setDatetime(date);
+      setNumberPeople(props.data.number_people);
+      setPhone(props.data.phone);
+      setEmail(props.data.email);
+    } else {
+      setTopic('');
+      setPlace('');
+      setDatetime('');
+      setNumberPeople(0);
+      setPhone('');
+      setEmail('');
+    }
+  }, [props]);
+
+  function save(e) {
+    e.preventDefault();
+    $('#modal').modal('hide');
+    var date = datetime + ':00';
+    date = date.replace('T', ' ');
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].post('/events/create', {
+      topic: topic,
+      place: place,
+      number_people: numberPeople,
+      date: date,
+      phone: phone,
+      email: email
+    }).then(function (response) {
+      alert("The event ".concat(topic, " was created."));
+    });
+  }
+
+  function update(e) {
+    e.preventDefault();
+    $('#modal').modal('hide');
+    var date = datetime + ':00';
+    date = date.replace('T', ' ');
+    _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].put("/events/".concat(id), {
+      topic: topic,
+      place: place,
+      number_people: numberPeople,
+      date: date,
+      phone: phone,
+      email: email
+    }).then(function (response) {
+      alert("The event ".concat(topic, " was updated."));
+    });
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "modal-title",
+    id: "modalLabel"
+  }, props.data === null ? 'New Event' : "Edit ".concat(props.data.topic, " event")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "close",
+    "data-dismiss": "modal",
+    "aria-label": "Close"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: props.data === null ? save : update
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "topic",
+    onChange: function onChange(e) {
+      return setTopic(e.target.value);
+    },
+    value: topic
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-8"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Place"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "place",
+    onChange: function onChange(e) {
+      return setPlace(e.target.value);
+    },
+    value: place
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Date and time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "datetime-local",
+    className: "form-control",
+    name: "datetime",
+    onChange: function onChange(e) {
+      return setDatetime(e.target.value);
+    },
+    value: datetime
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Number of people"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "numberpeople",
+    onChange: function onChange(e) {
+      return setNumberPeople(e.target.value);
+    },
+    value: numberPeople
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    name: "phone",
+    onChange: function onChange(e) {
+      return setPhone(e.target.value);
+    },
+    value: phone
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    required: true,
+    type: "email",
+    className: "form-control",
+    name: "email",
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    },
+    value: email
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "btn btn-secondary",
+    "data-dismiss": "modal"
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "submit",
+    className: "btn btn-primary ml-auto",
+    value: "Save changes"
+  }))));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Events.js":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Events.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Events; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/api */ "./resources/js/services/api.js");
+/* harmony import */ var _EventForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EventForm */ "./resources/js/components/EventForm.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
 function Events() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -65865,84 +66088,27 @@ function Events() {
       filter = _useState4[0],
       setFilter = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      topic = _useState6[0],
-      setTopic = _useState6[1];
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      place = _useState8[0],
-      setPlace = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState10 = _slicedToArray(_useState9, 2),
-      datetime = _useState10[0],
-      setDatetime = _useState10[1];
-
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
-      _useState12 = _slicedToArray(_useState11, 2),
-      numberPeople = _useState12[0],
-      setNumberPeople = _useState12[1];
-
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
-      _useState14 = _slicedToArray(_useState13, 2),
-      phone = _useState14[0],
-      setPhone = _useState14[1];
-
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
-      _useState16 = _slicedToArray(_useState15, 2),
-      email = _useState16[0],
-      setEmail = _useState16[1];
+      action = _useState6[0],
+      setAction = _useState6[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/events/").then(function (response) {
       setEventList(response.data);
     });
-
-    var test = function test() {
-      console.log('teste');
-    }; // test();
-
   }, []);
 
   function handleChange(value) {
     setFilter(value);
   }
 
-  function handleFormChange(e) {
-    if (e.target.name === 'topic') {
-      setTopic(e.target.value);
-    } else if (e.target.name === 'place') {
-      setPlace(e.target.value);
-    } else if (e.target.name === 'datetime') {
-      setDatetime(e.target.value);
-    } else if (e.target.name === 'numberpeople') {
-      setNumberPeople(e.target.value);
-    } else if (e.target.name === 'phone') {
-      setPhone(e.target.value);
-    } else if (e.target.name === 'email') {
-      setEmail(e.target.value);
-    } else {
-      return;
-    }
+  function newEvent() {
+    setAction(null);
   }
 
-  function save(e) {
-    e.preventDefault();
-    var date = datetime + ':00';
-    date = date.replace('T', ' ');
-    console.log(date.length);
-    _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].post('/events/create', {
-      topic: topic,
-      place: place,
-      number_people: numberPeople,
-      date: date,
-      phone: phone,
-      email: email
-    }).then(function (response) {
-      Alert("The event ".concat(topic, " was created."));
-    });
+  function editEvent(e, event) {
+    setAction(event);
   }
 
   function remove(e, event) {
@@ -66005,7 +66171,10 @@ function Events() {
           className: "btn btn-sm btn-success",
           type: "button",
           "data-toggle": "modal",
-          "data-target": "#modal"
+          "data-target": "#modal",
+          onClick: function onClick(e) {
+            return editEvent(e, event);
+          }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
           className: "bi bi-pencil-square",
           width: "1em",
@@ -66047,9 +66216,10 @@ function Events() {
     }
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "form-inline",
-    action: ""
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-inline mr-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -66059,7 +66229,22 @@ function Events() {
     type: "text",
     className: "form-control mr-2",
     placeholder: "Search the topic"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Filtro: ", filter), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-outline-primary",
+    "data-toggle": "modal",
+    "data-target": "#modal",
+    onClick: newEvent
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "bi bi-plus-circle-fill",
+    width: "1em",
+    height: "1em",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"
+  })), "\xA0 New Event"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-striped"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
     className: "thead-dark"
@@ -66071,108 +66256,13 @@ function Events() {
     "aria-labelledby": "modalLabel",
     "aria-hidden": "true"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-dialog",
+    className: "modal-dialog modal-lg",
     role: "document"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "modal-title",
-    id: "modalLabel"
-  }, "Modal title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "close",
-    "data-dismiss": "modal",
-    "aria-label": "Close"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    "aria-hidden": "true"
-  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-body"
-  }, "..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "btn btn-secondary",
-    "data-dismiss": "modal"
-  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "btn btn-primary"
-  }, "Save changes"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: save
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-12"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "text",
-    className: "form-control",
-    name: "topic",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-8"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Place"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "text",
-    className: "form-control",
-    name: "place",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Date and time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "datetime-local",
-    className: "form-control",
-    name: "datetime",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Number of people"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "text",
-    className: "form-control",
-    name: "numberpeople",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "text",
-    className: "form-control",
-    name: "phone",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group col-md-6"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    required: true,
-    type: "text",
-    className: "form-control",
-    name: "email",
-    onChange: function onChange(e) {
-      return handleFormChange(e);
-    }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "btn btn-secondary"
-  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "submit",
-    className: "btn btn-primary",
-    value: "Save changes"
-  })));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EventForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    data: action
+  })))));
 }
 
 /***/ }),
