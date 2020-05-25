@@ -1,12 +1,16 @@
 import React from 'react'
+import {Link, withRouter} from 'react-router-dom';
 
-
-export default function Nav() {
+function Nav() {
 
    return (
+
+      
       <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+         {/* <BrowserRouter> */}
+         
          <div className="container">
-            <a className="navbar-brand" href="#">Event Registration</a>
+            <Link className="navbar-brand" to="/">Event Registration</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
@@ -14,13 +18,13 @@ export default function Nav() {
             <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                  <a className="nav-link" href="#">Events </a>
+                  <Link className="nav-link" to="/events">Events </Link>
                   </li>
                   <li className="nav-item">
-                  <a className="nav-link" href="#">Speakers</a>
+                  <Link className="nav-link" to="/speakers">Speakers</Link>
                   </li>
                   <li className="nav-item">
-                  <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true">Contact</a>
+                  <Link className="nav-link" to="/contact" tabIndex="-1" aria-disabled="true">Contact</Link>
                   </li>
                </ul>
             </div>
@@ -43,7 +47,10 @@ export default function Nav() {
                </li>
          </ul>
          </div>
+         {/* </BrowserRouter> */}
       </nav>
    )
 
 }
+
+export default withRouter(Nav);

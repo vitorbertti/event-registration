@@ -173,35 +173,37 @@ export default function Events() {
                         </button>
                   </div>
                   <div className="modal-body">
-                     <table class="table table-bordered text-center">
-                        <tr>
-                           <th scope="row">Id</th>
-                           <td>{action === null ? '' : action.id}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Topic</th>
-                           <td>{action === null ? '' : action.topic}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Place</th>
-                           <td>{action === null ? '' : action.place}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Date</th>
-                           <td>{action === null ? '' : action.date}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Number of People</th>
-                           <td>{action === null ? '' : action.number_people}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Phone</th>
-                           <td>{action === null ? '' : action.phone}</td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Email</th>
-                           <td>{action === null ? '' : action.email}</td>
-                        </tr>
+                     <table className="table table-bordered text-center">
+                        <tbody>
+                           <tr>
+                              <th scope="row">Id</th>
+                              <td>{action === null ? '' : action.id}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Topic</th>
+                              <td>{action === null ? '' : action.topic}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Place</th>
+                              <td>{action === null ? '' : action.place}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Date</th>
+                              <td>{action === null ? '' : action.date}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Number of People</th>
+                              <td>{action === null ? '' : action.number_people}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Phone</th>
+                              <td>{action === null ? '' : action.phone}</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Email</th>
+                              <td>{action === null ? '' : action.email}</td>
+                           </tr>
+                        </tbody>
                      </table>
                   </div>    
                   <div className="modal-footer btn-group d-flex">      
