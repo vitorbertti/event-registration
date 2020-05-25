@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link, withRouter} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 
 function Nav() {
 
@@ -10,21 +10,21 @@ function Nav() {
          {/* <BrowserRouter> */}
          
          <div className="container">
-            <Link className="navbar-brand" to="/">Event Registration</Link>
+            <NavLink className="navbar-brand" to="/">Event Registration</NavLink>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
 
             <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                <ul className="navbar-nav mr-auto">
-                  <li className="nav-item active">
-                  <Link className="nav-link" to="/events">Events </Link>
+                  <li className="nav-item" >
+                  <NavLink className="nav-link" to="/events">Events </NavLink>
                   </li>
                   <li className="nav-item">
-                  <Link className="nav-link" to="/speakers">Speakers</Link>
+                  <NavLink className="nav-link" to="/speakers">Speakers</NavLink>
                   </li>
                   <li className="nav-item">
-                  <Link className="nav-link" to="/contact" tabIndex="-1" aria-disabled="true">Contact</Link>
+                  <NavLink className="nav-link" to="/contact">Contact</NavLink>
                   </li>
                </ul>
             </div>
