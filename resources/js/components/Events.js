@@ -164,7 +164,7 @@ function Events() {
                   <th>Date</th>
                   <th>Number of People</th>
                   <th>Batch</th>
-                  <th>Options</th>
+                  <th colSpan="2">Options</th>
                </tr>
             </thead>
             {showTbody()}
