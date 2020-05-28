@@ -36,7 +36,7 @@ class BatchController extends Controller
 
    public function show(int $id)
    {
-      $resource = Batch::find($id);
+      $resource = Batch::where('event', $id)->orderBy('id', 'desc')->get();
 
       if (is_null($resource)) 
       {

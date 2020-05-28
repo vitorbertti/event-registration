@@ -16,11 +16,23 @@ class SocialNetworkController extends Controller
 
    public function store(Request $request)
    {
+      echo $request;
       $social_network = new SocialNetwork();
       $social_network->name = $request->name;
       $social_network->url = $request->url;
-      $social_network->event = $request->event;
-      $social_network->speaker = $request->speaker;
+
+      if($request->event)
+      {
+         $social_network->event = $request->event;
+         $social_network->speaker = 0;
+      }
+      else if($request->speaker)
+      {
+         $social_network->event = 0;
+         $social_network->speaker = $request->speaker;
+      }
+
+      echo $social_network;
 
       try
       {
@@ -36,7 +48,7 @@ class SocialNetworkController extends Controller
 
    public function show(int $id)
    {
-      $resource = SocialNetwork::find($id);
+      $resource = SocialNetwork::where('event', $id)->get();
 
       if (is_null($resource)) 
       {

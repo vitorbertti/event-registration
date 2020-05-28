@@ -8,14 +8,14 @@ class SocialNetwork extends Model
 {
    protected $table = 'social_networks';
 
-   protected $fillable = ['name', 'url', 'event', 'speaker'];
+   protected $fillable = ['name', 'url'];
 
-   public function events()
+   public function event()
    {
       return $this->belongsTo(Event::class, 'event', 'id');
    }
 
-   public function speakers()
+   public function speaker()
    {
       return $this->belongsTo(Speaker::class, 'speaker', 'id');
    }
