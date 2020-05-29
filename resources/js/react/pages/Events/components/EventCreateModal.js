@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import api from '../../../services/api'
 
-export default function EventForm(props) {
+export default function EventCreateModal(props) {
    const [id, setId] = useState('');
    const [topic, setTopic] = useState('');
    const [place, setPlace] = useState('');

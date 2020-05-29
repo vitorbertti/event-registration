@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Link, withRouter} from 'react-router-dom';
 
 import api from "../../services/api";
-import EventForm from './components/EventForm'
+import EventCreateModal from './components/EventCreateModal'
 
 function Events() {
 
@@ -171,7 +171,7 @@ function Events() {
          <div className="modal fade" id="modal" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div className="modal-dialog modal-lg" role="document">
                <div className="modal-content">
-                  <EventForm data={action}/>
+                  <EventCreateModal data={action}/>
                </div>
             </div>
          </div>
