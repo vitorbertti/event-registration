@@ -16,7 +16,6 @@ class SocialNetworkController extends Controller
 
    public function store(Request $request)
    {
-      echo $request;
       $social_network = new SocialNetwork();
       $social_network->name = $request->name;
       $social_network->url = $request->url;
@@ -24,7 +23,7 @@ class SocialNetworkController extends Controller
       if($request->event)
       {
          $social_network->event = $request->event;
-         $social_network->speaker = 0;
+         $social_network->speaker = 1;
       }
       else if($request->speaker)
       {

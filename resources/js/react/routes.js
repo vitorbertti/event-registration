@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Nav from './Nav';
-import Events from './Events';
-import Speakers from './Speakers';
-import Contact from './Contact';
-import Dashboard from './Dashboard';
-import EventEdit from './EventEdit';
+import Nav from './pages/Nav';
+import Events from './pages/Events';
+import Speakers from './pages/Speakers';
+import Contact from './pages/Contact';
+import Dashboard from './pages/Dashboard';
+import EventEdit from './pages/Events/components/EventEdit';
 
 
 export default function Routes() {

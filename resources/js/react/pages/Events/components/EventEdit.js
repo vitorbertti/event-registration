@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import api from '../services/api'
+import api from '../../../services/api'
 
 export default function EventEdit(props) {
 
@@ -21,6 +21,10 @@ export default function EventEdit(props) {
 
       api.get(`/batches/${props.match.params.id}`).then(response => {
          setBatches(response.data);
+      }); 
+
+      api.get(`/socialnetworks/${props.match.params.id}`).then(response => {
+         setSocialNetworks(response.data);
       }); 
    }, []);
 
@@ -157,22 +161,22 @@ export default function EventEdit(props) {
                      <div className="tab-pane fade" id="socialnetworks" role="tabpanel" aria-labelledby="socialnetworks-tab">
                         <fieldset className="form-group">
                            {socialNetworks.length ? socialNetworks.map(socialNetwork => ( 
-                           <div className="row">
+                           <div key={socialNetwork.id} className="row">
                               <div className="form-group col-md-4">
                                  <label>Name</label>
                                  <select className="form-control" name="name"  value={socialNetwork.name}>
                                     <option value="">Select</option>
-                                    <option value="fab fa-youtube">Youtube</option>
-                                    <option value="fab fa-instagram">Instagram</option>
-                                    <option value="fab fa-facebook">Facebook</option>
-                                    <option value="fab fa-twitter">Twitter</option>
-                                    <option value="fab fa-google">Google</option>
-                                    <option value="fab fa-linkedin">Linkedin</option>
-                                    <option value="fab fa-pinterest">Pinterest</option>
-                                    <option value="fab fa-whatsapp">Whatsapp</option>
-                                    <option value="fab fa-telegram">Telegram</option>
-                                    <option value="fab fa-skype">Skype</option>
-                                    <option value="fab fa-vimeo">Vimeo</option>
+                                    <option value="Youtube">Youtube</option>
+                                    <option value="Instagram">Instagram</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="Twitter">Twitter</option>
+                                    <option value="Google">Google</option>
+                                    <option value="Linkedin">Linkedin</option>
+                                    <option value="Pinterest">Pinterest</option>
+                                    <option value="Whatsapp">Whatsapp</option>
+                                    <option value="Telegram">Telegram</option>
+                                    <option value="Skype">Skype</option>
+                                    <option value="Vimeo">Vimeo</option>
                                  </select>
                               </div>
                               <div className="form-group col-md-4">

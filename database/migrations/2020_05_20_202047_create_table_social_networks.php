@@ -17,8 +17,8 @@ class CreateTableSocialNetworks extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->unsignedBigInteger('event');
-            $table->unsignedBigInteger('speaker');
+            $table->integer('event')->nullable()->unsigned();
+            $table->integer('speaker')->nullable()->unsigned();
             $table->timestamps();
 
             $table->foreign('event')->references('id')->on('events');

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {Link, withRouter} from 'react-router-dom';
 
-import api from "../services/api";
-import EventForm from './EventForm'
+import api from "../../services/api";
+import EventForm from './components/EventForm'
 
 function Events() {
 
