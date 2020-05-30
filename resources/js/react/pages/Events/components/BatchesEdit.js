@@ -40,7 +40,7 @@ export default function BatchesEdit(props) {
             "</div>"+
          "</div>"
       );
-      $('#test').append(newDiv);
+      $('#batches').append(newDiv);
    }
 
    return (

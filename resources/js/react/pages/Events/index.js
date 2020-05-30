@@ -5,7 +5,6 @@ import api from "../../services/api";
 import EventCreateModal from './components/EventCreateModal'
 
 function Events() {
-
    const [eventList, setEventList] = useState([]);
    const [filter, setFilter] = useState('');
    const [action, setAction] = useState(null);
@@ -18,6 +17,7 @@ function Events() {
    useEffect(() => {
       listAll();
    }, []);
+
 
    function handleChange(value) {
       setFilter(value);
@@ -39,12 +39,11 @@ function Events() {
       e.preventDefault();
       $('#modalDelete').modal('hide');
       api.delete(`/events/${event.id}`).then(response => {
-         alert(`The event ${event.topic} was deleted.`)
+         alert(`The event ${event.topic} was deleted.`);
+         // listAll();
       });
-      listAll();
    }
 
-   
     function showTbody() {
       if(filter) {
          return (
@@ -171,7 +170,7 @@ function Events() {
          <div className="modal fade" id="modal" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div className="modal-dialog modal-lg" role="document">
                <div className="modal-content">
-                  <EventCreateModal data={action}/>
+                  <EventCreateModal data={action} list={listAll}/>
                </div>
             </div>
          </div>

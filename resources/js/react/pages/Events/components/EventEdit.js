@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import api from '../../../services/api'
 import BatchesEdit from './BatchesEdit';
@@ -40,6 +41,22 @@ export default function EventEdit(props) {
          setEmail('');
       }
     }, [event]);
+
+    function saveChanges(e) {
+      e.preventDefault();
+      let date = datetime+':00';
+      date = date.replace('T', ' ');
+      api.put(`/events/${eventId}`, {
+         topic,
+         place,
+         number_people: numberPeople,
+         date,
+         phone,
+         email,
+      }).then(response => {
+         props.history.push('/events');
+      });
+    }
 
    return (
       <div>
@@ -95,13 +112,13 @@ export default function EventEdit(props) {
                         </div>
                      </div>
 
-                     <BatchesEdit data={eventId}/>  
+                     <BatchesEdit data={eventId} saveChanges={saveChanges}/>  
 
-                     <SocialNetworksEdit data={eventId}/>
+                     <SocialNetworksEdit data={eventId} saveChanges={saveChanges}/>
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">
-                           <button className="btn btn-success my-2" >Save Changes</button>
+                           <button className="btn btn-success my-2" onClick={e => saveChanges(e)} >Save Changes</button>
                         </div>
                      </div>
                   </div>
@@ -110,22 +127,22 @@ export default function EventEdit(props) {
                <div className="col-md-3">
                   <div className="card profile-card-2">
                      <div className="card-body pt-3">
-                        <h4>TOPIC</h4>
+                        <h4>{topic}</h4>
                         <p className="card-text">
-                           <b>Place:</b> PLACE
+                           <b>Place:</b> {place}
                            <br/>
-                           <b>Date:</b> DATE
+                           <b>Date:</b> {datetime}
                         </p>
                         <hr/>
                         <p className="card-text">
                            <b>Contacts</b><br/>
-                           <small className="text-muted">Phone: PHONE</small>
+                           <small className="text-muted">Phone: {phone}</small>
                            <br/>
-                           <small className="text-muted">E-mail: EMAIL</small>
+                           <small className="text-muted">E-mail: {email}</small>
                         </p>
                         <p className="card-text">
                            Capacity:
-                           <small className="text-muted"> NUMBER OF PEOPLE</small>
+                           <small className="text-muted"> {numberPeople}</small>
                         </p>
                         <div className="row">
                            <div className="icon-block col-md-8 iconesSociais">

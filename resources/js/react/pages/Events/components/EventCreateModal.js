@@ -46,7 +46,9 @@ export default function EventCreateModal(props) {
          email,
       }).then(response => {
          alert(`The event ${topic} was created.`);
+         props.list();
       });
+      
    }
 
    function update(e) {
@@ -63,7 +65,9 @@ export default function EventCreateModal(props) {
          email,
       }).then(response => {
          alert(`The event ${topic} was updated.`);
+         props.list();
       });
+      
    }
 
    return (
