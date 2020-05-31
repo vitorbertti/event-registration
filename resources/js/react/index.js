@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from 'redux'
-import reducers from './reducers'
+import { Provider } from 'react-redux'
 
 import Routes from './routes'
-
-const store = createStore(reducers);
+import store from './store'
 
 function App() {
     return (
         <div>
-            <Routes /> 
+            <Provider store={store}>
+                <Routes />
+            </Provider>
         </div>
     );
 }

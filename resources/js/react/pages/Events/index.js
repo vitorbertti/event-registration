@@ -40,7 +40,7 @@ function Events() {
       $('#modalDelete').modal('hide');
       api.delete(`/events/${event.id}`).then(response => {
          alert(`The event ${event.topic} was deleted.`);
-         // listAll();
+         listAll();
       });
    }
 
