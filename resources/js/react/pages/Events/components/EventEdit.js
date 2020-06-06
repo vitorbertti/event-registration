@@ -9,6 +9,8 @@ export default function EventEdit(props) {
 
    const eventId = props.match.params.id;
    const [event, setEvent] = useState('');
+   const [batches, setBatches] = useState([]);
+   const [socialNetworks, setSocialNetworks] = useState([]);
    const [topic, setTopic] = useState('');
    const [place, setPlace] = useState('');
    const [datetime, setDatetime] = useState('');
@@ -42,20 +44,36 @@ export default function EventEdit(props) {
       }
     }, [event]);
 
-    function saveChanges(e) {
+    async function saveChanges(e) {
       e.preventDefault();
       let date = datetime+':00';
       date = date.replace('T', ' ');
-      api.put(`/events/${eventId}`, {
+      await api.put(`/events/${eventId}`, {
          topic,
          place,
          number_people: numberPeople,
          date,
          phone,
          email,
-      }).then(response => {
-         props.history.push('/events');
       });
+      verifyBatches();
+      props.history.push('/events');
+    }
+
+   function verifyBatches() {
+      
+       if(batches && batches.length) {
+         batches.map(async (batch) => {
+            await api.put(`/batches/create`, {
+               name: batch.name,
+               price: batch.price,
+               quantity: batch.quantity,
+               event: eventId,
+            });
+         });
+       }else {
+          return;
+       }
     }
 
    return (
@@ -112,9 +130,9 @@ export default function EventEdit(props) {
                         </div>
                      </div>
 
-                     <BatchesEdit data={eventId} saveChanges={saveChanges}/>  
+                     <BatchesEdit data={eventId} addBatches={setBatches}/>  
 
-                     <SocialNetworksEdit data={eventId} saveChanges={saveChanges}/>
+                     <SocialNetworksEdit data={eventId} addSocialNetworks={setSocialNetworks}/>
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">
