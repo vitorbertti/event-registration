@@ -5,6 +5,7 @@ import api from '../../../services/api'
 function ChildComponent(props) {
 
    const batch = props.data;
+   const index = props.index;
    
    const [name, setName] = useState('');
    const [quantity, setQuantity] = useState('');
@@ -22,27 +23,16 @@ function ChildComponent(props) {
       }
     }, []);
 
-    function updateFieldChanged (e, index) {
-      console.log('index: ' + index);
-      console.log('property name: '+ e.target.name);
+    useEffect(() => { 
+      updateFieldChanged(index);
+    }, [name, quantity, price]);
+
+    function updateFieldChanged (index) {
       let newBatch = [...props.batchesList];
       newBatch[index].name = name;
       newBatch[index].quantity = quantity;
       newBatch[index].price = price;
-
-      console.log(newBatch[index]);
-      // props.addBatches(newArr);
-  }
-
-  function handleOnChange(e, index) {
-      if(e.target.name === 'name'){
-         setName(e.target.value);
-      }else if(e.target.name === 'quantity'){
-         setQuantity(e.target.value);
-      }else if(e.target.name === 'price'){
-         setPrice(e.target.value);
-      }
-      updateFieldChanged(e, index);
+      props.setBatches(newBatch);
   }
 
    return (
@@ -50,15 +40,15 @@ function ChildComponent(props) {
          <div className="row" key={batch.id}>
             <div className="form-group col-md-5">
                <label>Name</label>
-               <input type="text" className="form-control" name="name" onChange={e => handleOnChange(e, props.index)} value={name} />
+               <input type="text" className="form-control" name="name" onChange={e => setName(e.target.value)} value={name} />
             </div>
             <div className="form-group col-md-3">
                <label>Quantity</label>
-               <input type="text" className="form-control" name="quantity" onChange={e => handleOnChange(e, props.index)} value={quantity} />
+               <input type="text" className="form-control" name="quantity" onChange={e => setQuantity(e.target.value)} value={quantity} />
             </div>
             <div className="form-group col-md-3">
                <label>Price</label>
-               <input type="text" className="form-control" name="price" onChange={e => handleOnChange(e, props.index)} value={price}/>
+               <input type="text" className="form-control" name="price" onChange={e => setPrice(e.target.value)} value={price}/>
             </div>
             <div className="form-group col-md-1">
                <label>Remove</label>
@@ -84,6 +74,10 @@ export default function BatchesEdit(props) {
          setBatches(response.data); 
       });
    }, []);
+
+   useEffect(() => {
+      props.setBatches(batches);
+   }, [batches]);
 
 
    // function addBatch(e) {
@@ -123,15 +117,11 @@ export default function BatchesEdit(props) {
    return (
       <div className="tab-pane fade" id="batches" role="tabpanel" aria-labelledby="batches-tab">
          <fieldset className="form-group">
-
-            {batches.length ? batches.map((batch, index) => (
-               
-               <ChildComponent key={batch.id} data={batch} addBatches={setBatches} batchesList={batches} index={index}/>
-
+            {batches.length ? batches.map((batch, index) => (  
+               <ChildComponent key={batch.id} data={batch} setBatches={setBatches} batchesList={batches} index={index}/>
             )) : 
                <div id='batches'></div>
             }
-
          </fieldset>  
          <button className="btn btn-outline-primary" onClick={e => addBatch(e)}>Add Batch</button>
       </div>

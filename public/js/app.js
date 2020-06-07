@@ -73112,6 +73112,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ChildComponent(props) {
   var batch = props.data;
+  var index = props.index;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
       _useState2 = _slicedToArray(_useState, 2),
@@ -73139,29 +73140,17 @@ function ChildComponent(props) {
       setPrice('');
     }
   }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    updateFieldChanged(index);
+  }, [name, quantity, price]);
 
-  function updateFieldChanged(e, index) {
-    console.log('index: ' + index);
-    console.log('property name: ' + e.target.name);
-
+  function updateFieldChanged(index) {
     var newBatch = _toConsumableArray(props.batchesList);
 
     newBatch[index].name = name;
     newBatch[index].quantity = quantity;
     newBatch[index].price = price;
-    console.log(newBatch[index]); // props.addBatches(newArr);
-  }
-
-  function handleOnChange(e, index) {
-    if (e.target.name === 'name') {
-      setName(e.target.value);
-    } else if (e.target.name === 'quantity') {
-      setQuantity(e.target.value);
-    } else if (e.target.name === 'price') {
-      setPrice(e.target.value);
-    }
-
-    updateFieldChanged(e, index);
+    props.setBatches(newBatch);
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73176,7 +73165,7 @@ function ChildComponent(props) {
     className: "form-control",
     name: "name",
     onChange: function onChange(e) {
-      return handleOnChange(e, props.index);
+      return setName(e.target.value);
     },
     value: name
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73186,7 +73175,7 @@ function ChildComponent(props) {
     className: "form-control",
     name: "quantity",
     onChange: function onChange(e) {
-      return handleOnChange(e, props.index);
+      return setQuantity(e.target.value);
     },
     value: quantity
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73196,7 +73185,7 @@ function ChildComponent(props) {
     className: "form-control",
     name: "price",
     onChange: function onChange(e) {
-      return handleOnChange(e, props.index);
+      return setPrice(e.target.value);
     },
     value: price
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73231,7 +73220,10 @@ function BatchesEdit(props) {
     _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/batches/".concat(eventId)).then(function (response) {
       setBatches(response.data);
     });
-  }, []); // function addBatch(e) {
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.setBatches(batches);
+  }, [batches]); // function addBatch(e) {
   //    e.preventDefault();
   //    var newDiv = $(
   //       "<div class='row'>"+
@@ -73275,7 +73267,7 @@ function BatchesEdit(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ChildComponent, {
       key: batch.id,
       data: batch,
-      addBatches: setBatches,
+      setBatches: setBatches,
       batchesList: batches,
       index: index
     });
@@ -73633,16 +73625,16 @@ function EventEdit(props) {
   }
 
   function _saveChanges() {
-    _saveChanges = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+    _saveChanges = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
       var date;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
               e.preventDefault();
               date = datetime + ':00';
               date = date.replace('T', ' ');
-              _context2.next = 5;
+              _context3.next = 5;
               return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].put("/events/".concat(eventId), {
                 topic: topic,
                 place: place,
@@ -73654,14 +73646,15 @@ function EventEdit(props) {
 
             case 5:
               verifyBatches();
+              verifySocialNetworks();
               props.history.push('/events');
 
-            case 7:
+            case 8:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }));
     return _saveChanges.apply(this, arguments);
   }
@@ -73675,7 +73668,7 @@ function EventEdit(props) {
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].put("/batches/create", {
+                  return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].post('/batches/create', {
                     name: batch.name,
                     price: batch.price,
                     quantity: batch.quantity,
@@ -73692,6 +73685,38 @@ function EventEdit(props) {
 
         return function (_x2) {
           return _ref.apply(this, arguments);
+        };
+      }());
+    } else {
+      return;
+    }
+  }
+
+  function verifySocialNetworks() {
+    if (socialNetworks && socialNetworks.length) {
+      socialNetworks.map( /*#__PURE__*/function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(socialNetwork) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.next = 2;
+                  return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].post('/socialnetworks/create', {
+                    name: socialNetwork.name,
+                    url: socialNetwork.url,
+                    event: eventId
+                  });
+
+                case 2:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+
+        return function (_x3) {
+          return _ref2.apply(this, arguments);
         };
       }());
     } else {
@@ -73819,10 +73844,10 @@ function EventEdit(props) {
     value: email
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_BatchesEdit__WEBPACK_IMPORTED_MODULE_4__["default"], {
     data: eventId,
-    addBatches: setBatches
+    setBatches: setBatches
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_SocialNetworksEdit__WEBPACK_IMPORTED_MODULE_5__["default"], {
     data: eventId,
-    addSocialNetworks: setSocialNetworks
+    setSocialNetworks: setSocialNetworks
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -73877,6 +73902,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/api */ "./resources/js/react/services/api.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -73891,25 +73924,161 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+function ChildComponent(props) {
+  var socialNetwork = props.data;
+  var index = props.index;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      name = _useState2[0],
+      setName = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      url = _useState4[0],
+      setUrl = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (socialNetwork !== '') {
+      setName(socialNetwork.name);
+      setUrl(socialNetwork.url);
+    } else {
+      setName('');
+      setUrl('');
+    }
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    updateFieldChanged(index);
+  }, [name, url]);
+
+  function updateFieldChanged(index) {
+    var newSocialNetwork = _toConsumableArray(props.socialNetworksList);
+
+    newSocialNetwork[index].name = name;
+    newSocialNetwork[index].url = url;
+    props.setSocialNetworks(newSocialNetwork);
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "socialNetworks"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
+    name: "name",
+    onChange: function onChange(e) {
+      return setName(e.target.value);
+    },
+    value: name
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Youtube"
+  }, "Youtube"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Instagram"
+  }, "Instagram"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Facebook"
+  }, "Facebook"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Twitter"
+  }, "Twitter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Google"
+  }, "Google"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Linkedin"
+  }, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Pinterest"
+  }, "Pinterest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Whatsapp"
+  }, "Whatsapp"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Telegram"
+  }, "Telegram"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Skype"
+  }, "Skype"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Vimeo"
+  }, "Vimeo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Link"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    className: "form-control",
+    name: "url",
+    onChange: function onChange(e) {
+      return setUrl(e.target.value);
+    },
+    value: url
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group col-md-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Remove"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-sm btn-danger",
+    "data-toggle": "tooltip",
+    title: "Delete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "bi bi-trash-fill",
+    width: "1em",
+    height: "1em",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z",
+    clipRule: "evenodd"
+  }))))));
+}
+
 function SocialNetworksEdit(props) {
   var eventId = props.data;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      socialNetworks = _useState2[0],
-      setSocialNetworks = _useState2[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      socialNetworks = _useState6[0],
+      setSocialNetworks = _useState6[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     _services_api__WEBPACK_IMPORTED_MODULE_1__["default"].get("/socialnetworks/".concat(eventId)).then(function (response) {
       setSocialNetworks(response.data);
     });
   }, []);
-
-  function addSocialNetwork(e) {
-    e.preventDefault();
-    var newDiv = $("<div class='row' id='div1'>" + "<div class='form-group col-md-4'>" + "<label>Name</label>" + "<select class='form-control' >" + "<option value=''>Select</option>" + "<option value='Youtube'>Youtube</option>" + "<option value='Instagram'>Instagram</option>" + "<option value='Facebook'>Facebook</option>" + "<option value='Twitter'>Twitter</option>" + "<option value='Google'>Google</option>" + "<option value='Linkedin'>Linkedin</option>" + "<option value='Pinterest'>Pinterest</option>" + "<option value='Whatsapp'>Whatsapp</option>" + "<option value='Telegram'>Telegram</option>" + "<option value='Skype'>Skype</option>" + "<option value='Vimeo'>Vimeo</option>" + "</select>" + "</div>" + "<div class='form-group col-md-4'>" + "<label>Link</label>" + "<input type='text'  class='form-control' placeholder='URL'/>" + "</div>" + "<div class='form-group col-md-1'>" + "<label>Remove</label>" + "<button class='btn btn-sm btn-danger' data-toggle='tooltip' title='Delete'>" + "<svg class='bi bi-trash-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + "<path fillRule='evenodd' d='M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z' clipRule='evenodd'/>" + "</svg>" + "</button>" + "</div>" + "</div>");
-    $('#socialNetworks').append(newDiv);
-  }
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.setSocialNetworks(socialNetworks);
+  }, [socialNetworks]); // function addSocialNetwork(e) {
+  //    e.preventDefault();
+  //    var newDiv = $(
+  //       `<div class='row' id='div1'>`+
+  //          "<div class='form-group col-md-4'>"+
+  //             "<label>Name</label>"+
+  //             "<select class='form-control' >"+
+  //                "<option value=''>Select</option>"+
+  //                "<option value='Youtube'>Youtube</option>"+
+  //                "<option value='Instagram'>Instagram</option>"+
+  //                "<option value='Facebook'>Facebook</option>"+
+  //                "<option value='Twitter'>Twitter</option>"+
+  //                "<option value='Google'>Google</option>"+
+  //                "<option value='Linkedin'>Linkedin</option>"+
+  //                "<option value='Pinterest'>Pinterest</option>"+
+  //                "<option value='Whatsapp'>Whatsapp</option>"+
+  //                "<option value='Telegram'>Telegram</option>"+
+  //                "<option value='Skype'>Skype</option>"+
+  //                "<option value='Vimeo'>Vimeo</option>"+
+  //             "</select>"+
+  //          "</div>"+
+  //          "<div class='form-group col-md-4'>"+
+  //             "<label>Link</label>"+
+  //             "<input type='text'  class='form-control' placeholder='URL'/>"+
+  //          "</div>"+
+  //          "<div class='form-group col-md-1'>"+
+  //             "<label>Remove</label>"+
+  //             `<button class='btn btn-sm btn-danger' data-toggle='tooltip' title='Delete'>`+
+  //                "<svg class='bi bi-trash-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>"+
+  //                   "<path fillRule='evenodd' d='M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z' clipRule='evenodd'/>"+
+  //                "</svg>"+
+  //             "</button>"+
+  //          "</div>"+
+  //       "</div>"
+  //       );
+  //    $('#socialNetworks').append(newDiv);
+  // }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "tab-pane fade",
@@ -73918,65 +74087,14 @@ function SocialNetworksEdit(props) {
     "aria-labelledby": "socialnetworks-tab"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("fieldset", {
     className: "form-group"
-  }, socialNetworks.length ? socialNetworks.map(function (socialNetwork) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, socialNetworks.length ? socialNetworks.map(function (socialNetwork, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ChildComponent, {
       key: socialNetwork.id,
-      className: "row"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "form-group col-md-4"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      className: "form-control",
-      name: "name",
-      value: socialNetwork.name
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: ""
-    }, "Select"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Youtube"
-    }, "Youtube"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Instagram"
-    }, "Instagram"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Facebook"
-    }, "Facebook"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Twitter"
-    }, "Twitter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Google"
-    }, "Google"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Linkedin"
-    }, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Pinterest"
-    }, "Pinterest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Whatsapp"
-    }, "Whatsapp"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Telegram"
-    }, "Telegram"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Skype"
-    }, "Skype"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Vimeo"
-    }, "Vimeo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "form-group col-md-4"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Link"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "text",
-      className: "form-control",
-      name: "url",
-      value: socialNetwork.url
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "form-group col-md-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Remove"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-sm btn-danger",
-      "data-toggle": "tooltip",
-      title: "Delete"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-      className: "bi bi-trash-fill",
-      width: "1em",
-      height: "1em",
-      viewBox: "0 0 16 16",
-      fill: "currentColor",
-      xmlns: "http://www.w3.org/2000/svg"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      fillRule: "evenodd",
-      d: "M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z",
-      clipRule: "evenodd"
-    })))));
+      data: socialNetwork,
+      setSocialNetworks: setSocialNetworks,
+      socialNetworksList: socialNetworks,
+      index: index
+    });
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "socialNetworks"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {

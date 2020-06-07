@@ -57,14 +57,14 @@ export default function EventEdit(props) {
          email,
       });
       verifyBatches();
+      verifySocialNetworks();
       props.history.push('/events');
     }
 
    function verifyBatches() {
-      
        if(batches && batches.length) {
-         batches.map(async (batch) => {
-            await api.put(`/batches/create`, {
+         batches.map(async (batch) => { 
+            await api.post('/batches/create', {
                name: batch.name,
                price: batch.price,
                quantity: batch.quantity,
@@ -75,6 +75,20 @@ export default function EventEdit(props) {
           return;
        }
     }
+
+    function verifySocialNetworks() {
+      if(socialNetworks && socialNetworks.length) {
+         socialNetworks.map(async (socialNetwork) => { 
+           await api.post('/socialnetworks/create', {
+              name: socialNetwork.name,
+              url: socialNetwork.url,
+              event: eventId,
+           });
+        });
+      }else {
+         return;
+      }
+   }
 
    return (
       <div>
@@ -130,9 +144,9 @@ export default function EventEdit(props) {
                         </div>
                      </div>
 
-                     <BatchesEdit data={eventId} addBatches={setBatches}/>  
+                     <BatchesEdit data={eventId} setBatches={setBatches}/>  
 
-                     <SocialNetworksEdit data={eventId} addSocialNetworks={setSocialNetworks}/>
+                     <SocialNetworksEdit data={eventId} setSocialNetworks={setSocialNetworks}/>
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">

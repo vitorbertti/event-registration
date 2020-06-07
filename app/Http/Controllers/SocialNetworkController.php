@@ -16,33 +16,39 @@ class SocialNetworkController extends Controller
 
    public function store(Request $request)
    {
-      $social_network = new SocialNetwork();
-      $social_network->name = $request->name;
-      $social_network->url = $request->url;
+      $resource = SocialNetwork::where('url', $request->url)->first();
 
-      if($request->event)
+      if (is_null($resource)) 
       {
-         $social_network->event = $request->event;
-         $social_network->speaker = 1;
-      }
-      else if($request->speaker)
-      {
-         $social_network->event = 0;
-         $social_network->speaker = $request->speaker;
-      }
+         $social_network = new SocialNetwork();
+         $social_network->name = $request->name;
+         $social_network->url = $request->url;
 
-      echo $social_network;
+         if($request->event)
+         {
+            $social_network->event = $request->event;
+         }
+         else if($request->speaker)
+         {
+            $social_network->speaker = $request->speaker;
+         }
 
-      try
-      {
-         $social_network->save();
-      }
-      catch(Exception $e)
-      {
-         return response()->json($e, 404);
-      }
+         try
+         {
+            $social_network->save();
+         }
+         catch(Exception $e)
+         {
+            return response()->json($e, 404);
+         }
 
-      return str_replace('\/', '/', json_encode($social_network));
+         return str_replace('\/', '/', json_encode($social_network));
+      }
+      
+      $resource->fill($request->all());
+      $resource->save();
+
+      return response()->json($resource);
    }
 
    public function show(int $id)
