@@ -23,11 +23,17 @@ function ChildComponent(props) {
       updateFieldChanged(index);
     }, [name, url]);
 
-    function updateFieldChanged (index) {
+   function updateFieldChanged (index) {
       let newSocialNetwork = [...props.socialNetworksList];
       newSocialNetwork[index].name = name;
       newSocialNetwork[index].url = url;
       props.setSocialNetworks(newSocialNetwork);
+   }
+
+   async function remove(e) {
+      e.preventDefault();
+      await api.delete(`/socialnetworks/${socialNetwork.id}`);
+      props.listSocialNetworks();
    }
 
    return (
@@ -56,7 +62,7 @@ function ChildComponent(props) {
             </div>
             <div className="form-group col-md-1">
                <label>Remove</label>
-               <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" >
+               <button className="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" onClick={e => remove(e)}>
                   <svg className="bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                      <path fillRule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clipRule="evenodd"/>
                   </svg>
@@ -74,14 +80,17 @@ export default function SocialNetworksEdit(props) {
    const [socialNetworks, setSocialNetworks] = useState([]);
 
    useEffect(() => {
-      api.get(`/socialnetworks/${eventId}`).then(response => {
-         setSocialNetworks(response.data);
-      }); 
+      listSocialNetworks(); 
    }, []);
 
    useEffect(() => {
       props.setSocialNetworks(socialNetworks);
    }, [socialNetworks]);
+
+   async function listSocialNetworks(){
+      const response = await api.get(`/socialnetworks/${eventId}`)
+      setSocialNetworks(response.data);
+   }
 
    function addSocialNetwork(e) {
       e.preventDefault();   
@@ -98,7 +107,7 @@ export default function SocialNetworksEdit(props) {
       <div className="tab-pane fade" id="socialnetworks" role="tabpanel" aria-labelledby="socialnetworks-tab">
          <fieldset className="form-group">
             {socialNetworks.length ? socialNetworks.map((socialNetwork, index) => ( 
-               <ChildComponent key={socialNetwork.id} data={socialNetwork} setSocialNetworks={setSocialNetworks} socialNetworksList={socialNetworks} index={index}/>
+               <ChildComponent key={socialNetwork.id} data={socialNetwork} setSocialNetworks={setSocialNetworks} socialNetworksList={socialNetworks} index={index} listSocialNetworks={listSocialNetworks}/>
             )) :
                <div id="socialNetworks"></div>
             }
