@@ -73223,37 +73223,18 @@ function BatchesEdit(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     props.setBatches(batches);
-  }, [batches]); // function addBatch(e) {
-  //    e.preventDefault();
-  //    var newDiv = $(
-  //       "<div class='row'>"+
-  //          "<div class='form-group col-md-5'>"+
-  //             "<label>Name</label>"+
-  //             "<input type='text' class='form-control' name='name' />"+
-  //          "</div>"+
-  //          "<div class='form-group col-md-3'>"+
-  //             "<label>Quantity</label>"+
-  //             "<input type='text' class='form-control' />"+
-  //          "</div>"+
-  //          "<div class='form-group col-md-3'>"+
-  //             "<label>Price</label>"+
-  //             "<input type='text' class='form-control' />"+
-  //          "</div>"+
-  //          "<div class='form-group col-md-1'>"+
-  //             "<label>Remove</label>"+
-  //             "<button class='btn btn-sm btn-danger' data-toggle='tooltip' title='Delete' >"+
-  //                "<svg class='bi bi-trash-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>"+
-  //                   "<path fillRule='evenodd' d='M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z' clipRule='evenodd'/>"+
-  //                "</svg>"+
-  //             "</button>"+
-  //          "</div>"+
-  //       "</div>"
-  //    );
-  //    $('#batches').append(newDiv);
-  // }
+  }, [batches]);
 
   function addBatch(e) {
     e.preventDefault();
+    var id = batches.length + 1;
+    var newBatch = {
+      id: id,
+      name: '',
+      quantity: '',
+      price: ''
+    };
+    setBatches([].concat(_toConsumableArray(batches), [newBatch]));
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73667,7 +73648,24 @@ function EventEdit(props) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.next = 2;
+                  if (!batch.event) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  _context.next = 3;
+                  return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].put("/batches/".concat(batch.id), {
+                    name: batch.name,
+                    price: batch.price,
+                    quantity: batch.quantity
+                  });
+
+                case 3:
+                  _context.next = 7;
+                  break;
+
+                case 5:
+                  _context.next = 7;
                   return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].post('/batches/create', {
                     name: batch.name,
                     price: batch.price,
@@ -73675,7 +73673,7 @@ function EventEdit(props) {
                     event: eventId
                   });
 
-                case 2:
+                case 7:
                 case "end":
                   return _context.stop();
               }
@@ -73693,6 +73691,8 @@ function EventEdit(props) {
   }
 
   function verifySocialNetworks() {
+    console.log('entrou');
+
     if (socialNetworks && socialNetworks.length) {
       socialNetworks.map( /*#__PURE__*/function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(socialNetwork) {
@@ -73700,14 +73700,30 @@ function EventEdit(props) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context2.next = 2;
+                  if (!socialNetwork.event) {
+                    _context2.next = 5;
+                    break;
+                  }
+
+                  _context2.next = 3;
+                  return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].put("/socialnetworks/".concat(socialNetwork.id), {
+                    name: socialNetwork.name,
+                    url: socialNetwork.url
+                  });
+
+                case 3:
+                  _context2.next = 7;
+                  break;
+
+                case 5:
+                  _context2.next = 7;
                   return _services_api__WEBPACK_IMPORTED_MODULE_3__["default"].post('/socialnetworks/create', {
                     name: socialNetwork.name,
                     url: socialNetwork.url,
                     event: eventId
                   });
 
-                case 2:
+                case 7:
                 case "end":
                   return _context2.stop();
               }
@@ -73742,7 +73758,7 @@ function EventEdit(props) {
     role: "tab",
     "aria-controls": "event",
     "aria-selected": "true"
-  }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+  }, "Event")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
     className: "nav-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
     className: "nav-link",
@@ -73752,7 +73768,7 @@ function EventEdit(props) {
     role: "tab",
     "aria-controls": "batches",
     "aria-selected": "false"
-  }, "Profile")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+  }, "Batches")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
     className: "nav-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
     className: "nav-link",
@@ -74042,43 +74058,18 @@ function SocialNetworksEdit(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     props.setSocialNetworks(socialNetworks);
-  }, [socialNetworks]); // function addSocialNetwork(e) {
-  //    e.preventDefault();
-  //    var newDiv = $(
-  //       `<div class='row' id='div1'>`+
-  //          "<div class='form-group col-md-4'>"+
-  //             "<label>Name</label>"+
-  //             "<select class='form-control' >"+
-  //                "<option value=''>Select</option>"+
-  //                "<option value='Youtube'>Youtube</option>"+
-  //                "<option value='Instagram'>Instagram</option>"+
-  //                "<option value='Facebook'>Facebook</option>"+
-  //                "<option value='Twitter'>Twitter</option>"+
-  //                "<option value='Google'>Google</option>"+
-  //                "<option value='Linkedin'>Linkedin</option>"+
-  //                "<option value='Pinterest'>Pinterest</option>"+
-  //                "<option value='Whatsapp'>Whatsapp</option>"+
-  //                "<option value='Telegram'>Telegram</option>"+
-  //                "<option value='Skype'>Skype</option>"+
-  //                "<option value='Vimeo'>Vimeo</option>"+
-  //             "</select>"+
-  //          "</div>"+
-  //          "<div class='form-group col-md-4'>"+
-  //             "<label>Link</label>"+
-  //             "<input type='text'  class='form-control' placeholder='URL'/>"+
-  //          "</div>"+
-  //          "<div class='form-group col-md-1'>"+
-  //             "<label>Remove</label>"+
-  //             `<button class='btn btn-sm btn-danger' data-toggle='tooltip' title='Delete'>`+
-  //                "<svg class='bi bi-trash-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>"+
-  //                   "<path fillRule='evenodd' d='M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z' clipRule='evenodd'/>"+
-  //                "</svg>"+
-  //             "</button>"+
-  //          "</div>"+
-  //       "</div>"
-  //       );
-  //    $('#socialNetworks').append(newDiv);
-  // }
+  }, [socialNetworks]);
+
+  function addSocialNetwork(e) {
+    e.preventDefault();
+    var id = socialNetworks.length + 1;
+    var newSocialNetwork = {
+      id: id,
+      name: '',
+      url: ''
+    };
+    setSocialNetworks([].concat(_toConsumableArray(socialNetworks), [newSocialNetwork]));
+  }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "tab-pane fade",

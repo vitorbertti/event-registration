@@ -63,13 +63,21 @@ export default function EventEdit(props) {
 
    function verifyBatches() {
        if(batches && batches.length) {
-         batches.map(async (batch) => { 
-            await api.post('/batches/create', {
-               name: batch.name,
-               price: batch.price,
-               quantity: batch.quantity,
-               event: eventId,
-            });
+         batches.map(async (batch) => {
+            if(batch.event){
+               await api.put(`/batches/${batch.id}`, {
+                  name: batch.name,
+                  price: batch.price,
+                  quantity: batch.quantity,
+               });
+            }else{
+               await api.post('/batches/create', {
+                  name: batch.name,
+                  price: batch.price,
+                  quantity: batch.quantity,
+                  event: eventId,
+               });
+            }   
          });
        }else {
           return;
@@ -77,13 +85,22 @@ export default function EventEdit(props) {
     }
 
     function verifySocialNetworks() {
+       console.log('entrou');
+       
       if(socialNetworks && socialNetworks.length) {
          socialNetworks.map(async (socialNetwork) => { 
-           await api.post('/socialnetworks/create', {
-              name: socialNetwork.name,
-              url: socialNetwork.url,
-              event: eventId,
-           });
+           if(socialNetwork.event){
+              await api.put(`/socialnetworks/${socialNetwork.id}`, {
+                    name: socialNetwork.name,
+                    url: socialNetwork.url,
+                 });
+           }else{
+              await api.post('/socialnetworks/create', {
+                 name: socialNetwork.name,
+                 url: socialNetwork.url,
+                 event: eventId,
+            });    
+           }   
         });
       }else {
          return;
@@ -98,10 +115,10 @@ export default function EventEdit(props) {
                <div className="col-md-9">
                   <ul className="nav nav-tabs" id="myTab" role="tablist">
                   <li className="nav-item">
-                     <a className="nav-link active" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="true">Home</a>
+                     <a className="nav-link active" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="true">Event</a>
                   </li>
                   <li className="nav-item">
-                     <a className="nav-link" id="batches-tab" data-toggle="tab" href="#batches" role="tab" aria-controls="batches" aria-selected="false">Profile</a>
+                     <a className="nav-link" id="batches-tab" data-toggle="tab" href="#batches" role="tab" aria-controls="batches" aria-selected="false">Batches</a>
                   </li>
                   <li className="nav-item">
                      <a className="nav-link" id="socialnetworks-tab" data-toggle="tab" href="#socialnetworks" role="tab" aria-controls="socialnetworks" aria-selected="false">Social Networks</a>

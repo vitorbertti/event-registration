@@ -15,35 +15,23 @@ class BatchController extends Controller
    }
 
    public function store(Request $request)
-   {
-      $resource = Batch::where('name', $request->name)->first();
+   { 
+      $batch = new Batch();
+      $batch->name = $request->name;
+      $batch->price = $request->price;
+      $batch->quantity = $request->quantity;
+      $batch->event = $request->event;
 
-      if (is_null($resource)) 
+      try
       {
-         $batch = new Batch();
-         $batch->name = $request->name;
-         $batch->price = $request->price;
-         $batch->quantity = $request->quantity;
-         $batch->event = $request->event;
-
-         try
-         {
-            $batch->save();
-         }
-         catch(Exception $e)
-         {
-            return response()->json($e, 404);
-         }
-
-         return response()->json($batch);
+         $batch->save();
       }
-      else
+      catch(Exception $e)
       {
-         $resource->fill($request->all());
-         $resource->save();
+         return response()->json($e, 404);
+      }
 
-         return response()->json($resource);
-      }  
+      return response()->json($batch);
    }
 
    public function show(int $id)
