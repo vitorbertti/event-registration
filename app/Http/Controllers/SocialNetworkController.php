@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class SocialNetworkController extends Controller
 {
-   public function index()
+   public function index(int $id)
    {
-      $resource = SocialNetwork::get();
-      return str_replace('\/', '/', json_encode($resource));
+      $resource = SocialNetwork::where('event', $id)->get();
+
+      if (is_null($resource)) 
+      {
+         return response()->json(['Error' => 'Social network not found'], 404);
+      }
+
+      return response()->json($resource);
    }
 
    public function store(Request $request)
@@ -43,7 +49,7 @@ class SocialNetworkController extends Controller
 
    public function show(int $id)
    {
-      $resource = SocialNetwork::where('event', $id)->get();
+      $resource = SocialNetwork::where('id', $id)->get();
 
       if (is_null($resource)) 
       {

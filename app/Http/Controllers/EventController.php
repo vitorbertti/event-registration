@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+
 use Exception;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,10 @@ class EventController extends Controller
 {
    public function index()
    {
-      $resource = Event::orderBy('date', 'DESC')->get();
+      $resource = Event::with('batches')
+         ->orderBy('date', 'DESC')
+         ->get();
+
       return response()->json($resource);
    }
 

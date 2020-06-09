@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class BatchController extends Controller
 {
-   public function index()
+   public function index(int $id)
    {
-      $resource = Batch::get();
+      $resource = Batch::where('event', $id)->orderBy('id', 'desc')->get();
+
+      if (is_null($resource)) 
+      {
+         return response()->json(['Error' => 'Batch not found'], 404);
+      }
+
       return response()->json($resource);
    }
 
@@ -36,7 +42,7 @@ class BatchController extends Controller
 
    public function show(int $id)
    {
-      $resource = Batch::where('event', $id)->orderBy('id', 'desc')->get();
+      $resource = Batch::where('id', $id)->get();
 
       if (is_null($resource)) 
       {

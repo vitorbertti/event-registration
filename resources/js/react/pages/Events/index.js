@@ -57,7 +57,7 @@ function Events() {
                      <td>{event.date}</td>
                      <td>{event.number_people}</td>
                      <td>
-                        {event.batches && event.batches.length ? event.batches[0].name : 'Not found'} 
+                        {event.batches && event.batches.length ? event.batches[event.batches.length-1].name : 'Not found'} 
                      </td>
                      <td>
                      <div className="btn-group"> 
@@ -90,7 +90,7 @@ function Events() {
                   <td>{event.place}</td>
                   <td>{event.date}</td>
                   <td>{event.number_people}</td>
-                  <td>{event.batches && event.batches.length ? event.batches[0].name : 'Not found'} </td>
+                  <td>{event.batches && event.batches.length ? event.batches[event.batches.length-1].name : 'Not found'} </td>
                   <td>
                      <div className="btn-group"> 
                         <button className="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         

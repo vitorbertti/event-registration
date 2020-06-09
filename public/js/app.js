@@ -73167,18 +73167,30 @@ function ChildComponent(props) {
 
   function _remove() {
     _remove = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
               _context.next = 3;
-              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/batches/".concat(batch.id));
+              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"].get("/batch/".concat(batch.id));
 
             case 3:
+              response = _context.sent;
+
+              if (!response.data.length) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 7;
+              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/batches/".concat(batch.id));
+
+            case 7:
               props.listBatches();
 
-            case 4:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -73197,6 +73209,7 @@ function ChildComponent(props) {
     className: "form-group col-md-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "text",
+    required: true,
     className: "form-control",
     name: "name",
     onChange: function onChange(e) {
@@ -73207,6 +73220,7 @@ function ChildComponent(props) {
     className: "form-group col-md-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Quantity"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "text",
+    required: true,
     className: "form-control",
     name: "quantity",
     onChange: function onChange(e) {
@@ -73217,6 +73231,7 @@ function ChildComponent(props) {
     className: "form-group col-md-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "text",
+    required: true,
     className: "form-control",
     name: "price",
     onChange: function onChange(e) {
@@ -73756,8 +73771,6 @@ function EventEdit(props) {
   }
 
   function verifySocialNetworks() {
-    console.log('entrou');
-
     if (socialNetworks && socialNetworks.length) {
       socialNetworks.map( /*#__PURE__*/function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(socialNetwork) {
@@ -73805,7 +73818,11 @@ function EventEdit(props) {
     }
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "Event Edit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "Event Edit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    onSubmit: function onSubmit(e) {
+      return saveChanges(e);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "col-md-9"
@@ -73933,12 +73950,11 @@ function EventEdit(props) {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "col-md-12 d-flex justify-content-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "submit",
     className: "btn btn-success my-2",
-    onClick: function onClick(e) {
-      return saveChanges(e);
-    }
-  }, "Save Changes"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    value: "Save Changes"
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "col-md-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card profile-card-2"
@@ -74055,18 +74071,30 @@ function ChildComponent(props) {
 
   function _remove() {
     _remove = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
               _context.next = 3;
-              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/socialnetworks/".concat(socialNetwork.id));
+              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"].get("/socialnetwork/".concat(socialNetwork.id));
 
             case 3:
+              response = _context.sent;
+
+              if (!response.data.length) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 7;
+              return _services_api__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/socialnetworks/".concat(socialNetwork.id));
+
+            case 7:
               props.listSocialNetworks();
 
-            case 4:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -74084,6 +74112,7 @@ function ChildComponent(props) {
     className: "form-group col-md-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     className: "form-control",
+    required: true,
     name: "name",
     onChange: function onChange(e) {
       return setName(e.target.value);
@@ -74117,6 +74146,7 @@ function ChildComponent(props) {
     className: "form-group col-md-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Link"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "text",
+    required: true,
     className: "form-control",
     name: "url",
     onChange: function onChange(e) {
@@ -74349,7 +74379,7 @@ function Events() {
 
         return event.topic.toLowerCase().includes(filter.toLowerCase()) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           key: event.id
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.topic), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.place), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.number_people), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.batches && event.batches.length ? event.batches[0].name : 'Not found'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.topic), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.place), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.number_people), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.batches && event.batches.length ? event.batches[event.batches.length - 1].name : 'Not found'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "btn-group"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", (_React$createElement = {
           className: "btn btn-sm btn-success",
@@ -74395,7 +74425,7 @@ function Events() {
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           key: event.id
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.topic), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.place), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.number_people), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.batches && event.batches.length ? event.batches[0].name : 'Not found', " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.topic), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.place), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.date), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.number_people), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, event.batches && event.batches.length ? event.batches[event.batches.length - 1].name : 'Not found', " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "btn-group"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", (_React$createElement3 = {
           className: "btn btn-sm btn-success",

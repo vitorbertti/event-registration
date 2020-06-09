@@ -37,24 +37,27 @@ function ChildComponent(props) {
 
    async function remove(e) {
       e.preventDefault();
-      await api.delete(`/batches/${batch.id}`);
+      const response = await api.get(`/batch/${batch.id}`); 
+      if(response.data.length){
+         await api.delete(`/batches/${batch.id}`); 
+      }
       props.listBatches();
    }
 
    return (
-      <div id='batches'>   
+      <div id='batches'>
          <div className="row" key={batch.id}>
             <div className="form-group col-md-5">
                <label>Name</label>
-               <input type="text" className="form-control" name="name" onChange={e => setName(e.target.value)} value={name} />
+               <input type="text" required className="form-control" name="name" onChange={e => setName(e.target.value)} value={name} />
             </div>
             <div className="form-group col-md-3">
                <label>Quantity</label>
-               <input type="text" className="form-control" name="quantity" onChange={e => setQuantity(e.target.value)} value={quantity} />
+               <input type="text" required className="form-control" name="quantity" onChange={e => setQuantity(e.target.value)} value={quantity} />
             </div>
             <div className="form-group col-md-3">
                <label>Price</label>
-               <input type="text" className="form-control" name="price" onChange={e => setPrice(e.target.value)} value={price}/>
+               <input type="text" required className="form-control" name="price" onChange={e => setPrice(e.target.value)} value={price}/>
             </div>
             <div className="form-group col-md-1">
                <label>Remove</label>

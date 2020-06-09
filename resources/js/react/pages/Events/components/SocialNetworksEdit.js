@@ -32,7 +32,10 @@ function ChildComponent(props) {
 
    async function remove(e) {
       e.preventDefault();
-      await api.delete(`/socialnetworks/${socialNetwork.id}`);
+      const response = await api.get(`/socialnetwork/${socialNetwork.id}`);
+      if(response.data.length){
+         await api.delete(`/socialnetworks/${socialNetwork.id}`);
+      }
       props.listSocialNetworks();
    }
 
@@ -41,7 +44,7 @@ function ChildComponent(props) {
          <div className="row">
             <div className="form-group col-md-4">
                <label>Name</label>
-               <select className="form-control" name="name" onChange={e => setName(e.target.value)} value={name}>
+               <select className="form-control" required name="name" onChange={e => setName(e.target.value)} value={name}>
                   <option value="">Select</option>
                   <option value="Youtube">Youtube</option>
                   <option value="Instagram">Instagram</option>
@@ -58,7 +61,7 @@ function ChildComponent(props) {
             </div>
             <div className="form-group col-md-4">
                <label>Link</label>
-               <input type="text"  className="form-control" name="url" onChange={e => setUrl(e.target.value)} value={url}/>
+               <input type="text" required  className="form-control" name="url" onChange={e => setUrl(e.target.value)} value={url}/>
             </div>
             <div className="form-group col-md-1">
                <label>Remove</label>

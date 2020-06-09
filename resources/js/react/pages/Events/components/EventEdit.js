@@ -46,6 +46,7 @@ export default function EventEdit(props) {
 
     async function saveChanges(e) {
       e.preventDefault();
+      
       let date = datetime+':00';
       date = date.replace('T', ' ');
       await api.put(`/events/${eventId}`, {
@@ -62,31 +63,30 @@ export default function EventEdit(props) {
     }
 
    function verifyBatches() {
-       if(batches && batches.length) {
-         batches.map(async (batch) => {
-            if(batch.event){
-               await api.put(`/batches/${batch.id}`, {
-                  name: batch.name,
-                  price: batch.price,
-                  quantity: batch.quantity,
-               });
-            }else{
-               await api.post('/batches/create', {
-                  name: batch.name,
-                  price: batch.price,
-                  quantity: batch.quantity,
-                  event: eventId,
-               });
-            }   
-         });
-       }else {
-          return;
-       }
+      
+      if(batches && batches.length) {
+      batches.map(async (batch) => {
+         if(batch.event){
+            await api.put(`/batches/${batch.id}`, {
+               name: batch.name,
+               price: batch.price,
+               quantity: batch.quantity,
+            });
+         }else{
+            await api.post('/batches/create', {
+               name: batch.name,
+               price: batch.price,
+               quantity: batch.quantity,
+               event: eventId,
+            });
+         }   
+      });
+      }else {
+         return;
+      }
     }
 
-    function verifySocialNetworks() {
-       console.log('entrou');
-       
+    function verifySocialNetworks() { 
       if(socialNetworks && socialNetworks.length) {
          socialNetworks.map(async (socialNetwork) => { 
            if(socialNetwork.event){
@@ -110,7 +110,7 @@ export default function EventEdit(props) {
    return (
       <div>
          <h1>Event Edit</h1>
-         <form>
+         <form onSubmit={e => saveChanges(e)}>
             <div className="row">
                <div className="col-md-9">
                   <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -167,7 +167,7 @@ export default function EventEdit(props) {
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">
-                           <button className="btn btn-success my-2" onClick={e => saveChanges(e)} >Save Changes</button>
+                           <input type="submit" className="btn btn-success my-2" value="Save Changes" />
                         </div>
                      </div>
                   </div>
