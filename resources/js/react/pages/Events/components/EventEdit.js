@@ -18,11 +18,14 @@ export default function EventEdit(props) {
    const [phone, setPhone] = useState('');
    const [email, setEmail] = useState('');
 
+   const [test, setTest] = useState('');
+
    useEffect(() => {
-      api.get(`/events/${eventId}`).then(response => {
+      api.get(`/events/${eventId}`).then(response => {    
          setEvent(response.data);
       });
-   }, []);
+      setTest('Ola');
+   }, [eventId]);
 
    useEffect(() => { 
       if(event !== ''){
@@ -110,6 +113,7 @@ export default function EventEdit(props) {
    return (
       <div>
          <h1>Event Edit</h1>
+         <h2>{test}</h2>
          <form onSubmit={e => saveChanges(e)}>
             <div className="row">
                <div className="col-md-9">
