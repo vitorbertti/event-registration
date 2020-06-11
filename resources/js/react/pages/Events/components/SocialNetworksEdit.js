@@ -79,7 +79,8 @@ function ChildComponent(props) {
 
 export default function SocialNetworksEdit(props) {
 
-   const eventId = props.data;
+   const id = props.data;
+   const object = props.object;
    const [socialNetworks, setSocialNetworks] = useState([]);
 
    useEffect(() => {
@@ -91,7 +92,7 @@ export default function SocialNetworksEdit(props) {
    }, [socialNetworks]);
 
    async function listSocialNetworks(){
-      const response = await api.get(`/socialnetworks/${eventId}`)
+      const response = await api.get(`/socialnetworks/${object}/${id}`)
       setSocialNetworks(response.data);
    }
 

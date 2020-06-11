@@ -36,7 +36,9 @@ Route::get('/speakers/{id}', 'SpeakerController@show');
 Route::put('/speakers/{id}', 'SpeakerController@update');
 Route::delete('/speakers/{id}', 'SpeakerController@destroy');
 
-Route::get('/socialnetworks/{id}', 'SocialNetworkController@index');
+Route::get('/socialnetworks', 'SocialNetworkController@index');
+Route::get('/socialnetworks/event/{id}', 'SocialNetworkController@getByEvent');
+Route::get('/socialnetworks/speaker/{id}', 'SocialNetworkController@getBySpeaker');
 Route::post('/socialnetworks/create', 'SocialNetworkController@store');
 Route::get('/socialnetwork/{id}', 'SocialNetworkController@show');
 Route::put('/socialnetworks/{id}', 'SocialNetworkController@update');

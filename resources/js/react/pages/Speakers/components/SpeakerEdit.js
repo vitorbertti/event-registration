@@ -1,95 +1,55 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 import api from '../../../services/api'
-import BatchesEdit from './BatchesEdit';
-import SocialNetworksEdit from './SocialNetworksEdit';
+import SocialNetworksEdit from '../../Events/components/SocialNetworksEdit'
+export default function SpeakerEdit(props) {
 
-export default function EventEdit(props) {
-
-   const eventId = props.match.params.id;
-   const [event, setEvent] = useState('');
-   const [batches, setBatches] = useState([]);
+   const speakerId = props.match.params.id;
+   const [speaker, setSpeaker] = useState('');
    const [socialNetworks, setSocialNetworks] = useState([]);
-   const [topic, setTopic] = useState('');
-   const [place, setPlace] = useState('');
+   const [name, setName] = useState('');
+   const [description, setDescription] = useState('');
    const [datetime, setDatetime] = useState('');
    const [numberPeople, setNumberPeople] = useState(0);
    const [phone, setPhone] = useState('');
    const [email, setEmail] = useState('');
 
    useEffect(() => {
-      api.get(`/events/${eventId}`).then(response => {    
-         setEvent(response.data);
+      api.get(`/speakers/${speakerId}`).then(response => {    
+         setSpeaker(response.data);
       });
-   }, [eventId]);
+   }, [speakerId]);
 
    useEffect(() => { 
-      if(event !== ''){
-         let date = event.date.substr(0, 16)
-            date = date.replace(' ', 'T');
-         setTopic(event.topic);
-         setPlace(event.place);
-         setDatetime(date);
-         setNumberPeople(event.number_people);
-         setPhone(event.phone);
-         setEmail(event.email);
+      if(speaker !== ''){
+         setName(speaker.name);
+         setDescription(speaker.description);
+         setPhone(speaker.phone);
+         setEmail(speaker.email);
       }else {
-         setTopic('');
-         setPlace('');
-         setDatetime('');
-         setNumberPeople(0);
+         setName('');
+         setDescription('');
          setPhone('');
          setEmail('');
       }
-    }, [event]);
+    }, [speaker]);
 
     async function saveChanges(e) {
       e.preventDefault();
-      
-      let date = datetime+':00';
-      date = date.replace('T', ' ');
-      await api.put(`/events/${eventId}`, {
-         topic,
-         place,
-         number_people: numberPeople,
-         date,
+      await api.put(`/speakers/${speakerId}`, {
+         name,
+         description,
          phone,
          email,
       });
-      verifyBatches();
       verifySocialNetworks();
-      props.history.push('/events');
-    }
-
-   function verifyBatches() {
-      
-      if(batches && batches.length) {
-      batches.map(async (batch) => {
-         if(batch.event){
-            await api.put(`/batches/${batch.id}`, {
-               name: batch.name,
-               price: batch.price,
-               quantity: batch.quantity,
-            });
-         }else{
-            await api.post('/batches/create', {
-               name: batch.name,
-               price: batch.price,
-               quantity: batch.quantity,
-               event: eventId,
-            });
-         }   
-      });
-      }else {
-         return;
-      }
+      props.history.push('/speakers');
     }
 
     function verifySocialNetworks() { 
       if(socialNetworks && socialNetworks.length) {
          socialNetworks.map(async (socialNetwork) => { 
-           if(socialNetwork.event){
+           if(socialNetwork.speaker){
               await api.put(`/socialnetworks/${socialNetwork.id}`, {
                     name: socialNetwork.name,
                     url: socialNetwork.url,
@@ -98,7 +58,7 @@ export default function EventEdit(props) {
               await api.post('/socialnetworks/create', {
                  name: socialNetwork.name,
                  url: socialNetwork.url,
-                 event: eventId,
+                 speaker: speakerId,
             });    
            }   
         });
@@ -109,61 +69,47 @@ export default function EventEdit(props) {
 
    return (
       <div>
-         <h1>Event Edit</h1>
+         <h1>Speaker Edit</h1>
          <form onSubmit={e => saveChanges(e)}>
             <div className="row">
                <div className="col-md-9">
                   <ul className="nav nav-tabs" id="myTab" role="tablist">
                   <li className="nav-item">
-                     <a className="nav-link active" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="true">Event</a>
-                  </li>
-                  <li className="nav-item">
-                     <a className="nav-link" id="batches-tab" data-toggle="tab" href="#batches" role="tab" aria-controls="batches" aria-selected="false">Batches</a>
+                     <a className="nav-link active" id="speaker-tab" data-toggle="tab" href="#speaker" role="tab" aria-controls="spaker" aria-selected="true">Speaker</a>
                   </li>
                   <li className="nav-item">
                      <a className="nav-link" id="socialnetworks-tab" data-toggle="tab" href="#socialnetworks" role="tab" aria-controls="socialnetworks" aria-selected="false">Social Networks</a>
                   </li>
                   </ul>
                   <div className="tab-content" id="myTabContent">
-                     <div className="tab-pane fade show active" id="event" role="tabpanel" aria-labelledby="event-tab">
+                     <div className="tab-pane fade show active" id="speaker" role="tabpanel" aria-labelledby="speaker-tab">
                         
                         <div className="form-row">
                            <div className="form-group col-md-12">
-                              <label>Topic</label>
-                              <input required type="text" className="form-control" name="topic" onChange={e => setTopic(e.target.value)} value={topic}/>
+                              <label>Name</label>
+                              <input required type="text" className="form-control" name="name" onChange={e => setName(e.target.value)} value={name}/>
                            </div>
                         </div>
 
                         <div className="form-row">
-                           <div className="form-group col-md-8">
-                              <label>Place</label>
-                              <input required type="text" className="form-control" name="place" onChange={e => setPlace(e.target.value)} value={place}/>                
-                           </div>
-                           <div className="form-group col-md-4">
-                              <label>Date and time</label>
-                              <input required type="datetime-local" className="form-control" name="datetime" onChange={e => setDatetime(e.target.value)} value={datetime}/>
+                           <div className="form-group col-md-12">
+                              <label>Description</label>
+                              <input required type="text" className="form-control" name="description" onChange={e => setDescription(e.target.value)} value={description}/>                
                            </div>
                         </div>
                         <div className="form-row">
-                           <div className="form-group col-md-2">
-                              <label>Number of People</label>
-                              <input required type="text" className="form-control"  name="numberpeople" onChange={e => setNumberPeople(e.target.value)} value={numberPeople}/>                 
-                           </div>
-
                            <div className="form-group col-md-4">
                               <label>Phone</label>
                               <input required type="text" className="form-control" name="phone" onChange={e => setPhone(e.target.value)} value={phone}/>
                            </div>
-                           <div className="form-group col-md-6">
+                           <div className="form-group col-md-8">
                               <label>Email</label>
                               <input required type="text" className="form-control" name="email" onChange={e => setEmail(e.target.value)} value={email}/> 
                            </div> 
                         </div>
                      </div>
 
-                     <BatchesEdit data={eventId} setBatches={setBatches}/>  
-
-                     <SocialNetworksEdit data={eventId} setSocialNetworks={setSocialNetworks} object="event"/>
+                     <SocialNetworksEdit data={speakerId} setSocialNetworks={setSocialNetworks} object="speaker"/>
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">
@@ -176,11 +122,10 @@ export default function EventEdit(props) {
                <div className="col-md-3">
                   <div className="card profile-card-2">
                      <div className="card-body pt-3">
-                        <h4>{topic}</h4>
+                        <h4>{name}</h4>
                         <p className="card-text">
-                           <b>Place:</b> {place}
+                           <b>Description:</b> {description}
                            <br/>
-                           <b>Date:</b> {datetime}
                         </p>
                         <hr/>
                         <p className="card-text">
@@ -188,10 +133,6 @@ export default function EventEdit(props) {
                            <small className="text-muted">Phone: {phone}</small>
                            <br/>
                            <small className="text-muted">E-mail: {email}</small>
-                        </p>
-                        <p className="card-text">
-                           Capacity:
-                           <small className="text-muted"> {numberPeople}</small>
                         </p>
                         <div className="row">
                            <div className="icon-block col-md-8 iconesSociais">
