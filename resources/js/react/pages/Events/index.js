@@ -59,6 +59,7 @@ function Events() {
                      <td>
                         {event.batches && event.batches.length ? event.batches[event.batches.length-1].name : 'Not found'} 
                      </td>
+                     <td>Not found</td>
                      <td>
                      <div className="btn-group"> 
                         <button className="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
@@ -99,7 +100,8 @@ function Events() {
                   <td>{event.date}</td>
                   <td>{event.number_people}</td>
                   <td>{event.batches && event.batches.length ? event.batches[event.batches.length-1].name : 'Not found'} </td>
-                  <td>
+                  <td>Not found</td>
+                  <td>   
                      <div className="btn-group"> 
                         <button className="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"  data-toggle="modal" data-target="#modal" onClick={e => editEvent(e, event)}>                         
                         <svg className="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -169,6 +171,7 @@ function Events() {
                   <th>Date</th>
                   <th>Number of People</th>
                   <th>Batch</th>
+                  <th>Speakers</th>
                   <th colSpan="2">Options</th>
                </tr>
             </thead>

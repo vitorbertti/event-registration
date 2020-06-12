@@ -19,8 +19,8 @@ class CreateTableEventSpeakers extends Migration
             $table->unsignedBigInteger('event');
             $table->timestamps();
 
-            $table->foreign('speaker')->references('speakers')->on('id');
-            $table->foreign('event')->references('events')->on('id');
+            $table->foreign('speaker')->references('id')->on('speakers');
+            $table->foreign('event')->references('id')->on('events');
         });
     }
 

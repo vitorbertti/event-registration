@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import api from '../../../services/api'
 import BatchesEdit from './BatchesEdit';
 import SocialNetworksEdit from './SocialNetworksEdit';
+import SpeakersEdit from './SpeakersEdit';
 
 export default function EventEdit(props) {
 
@@ -11,6 +12,8 @@ export default function EventEdit(props) {
    const [event, setEvent] = useState('');
    const [batches, setBatches] = useState([]);
    const [socialNetworks, setSocialNetworks] = useState([]);
+   const [speakers, setSpeakers] = useState([]);
+
    const [topic, setTopic] = useState('');
    const [place, setPlace] = useState('');
    const [datetime, setDatetime] = useState('');
@@ -123,6 +126,9 @@ export default function EventEdit(props) {
                   <li className="nav-item">
                      <a className="nav-link" id="socialnetworks-tab" data-toggle="tab" href="#socialnetworks" role="tab" aria-controls="socialnetworks" aria-selected="false">Social Networks</a>
                   </li>
+                  <li className="nav-item">
+                     <a className="nav-link" id="speakers-tab" data-toggle="tab" href="#speakers" role="tab" aria-controls="speakers" aria-selected="false">Speakers</a>
+                  </li>
                   </ul>
                   <div className="tab-content" id="myTabContent">
                      <div className="tab-pane fade show active" id="event" role="tabpanel" aria-labelledby="event-tab">
@@ -164,6 +170,8 @@ export default function EventEdit(props) {
                      <BatchesEdit data={eventId} setBatches={setBatches}/>  
 
                      <SocialNetworksEdit data={eventId} setSocialNetworks={setSocialNetworks} object="event"/>
+
+                     <SpeakersEdit data={eventId} setSpeakers={setSpeakers} />
 
                      <div className="row">
                         <div className="col-md-12 d-flex justify-content-end">
