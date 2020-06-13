@@ -43,3 +43,8 @@ Route::post('/socialnetworks/create', 'SocialNetworkController@store');
 Route::get('/socialnetwork/{id}', 'SocialNetworkController@show');
 Route::put('/socialnetworks/{id}', 'SocialNetworkController@update');
 Route::delete('/socialnetworks/{id}', 'SocialNetworkController@destroy');
+
+Route::get('/contacts', 'ContactController@index');
+Route::post('/contacts/create', 'ContactController@store');
+Route::get('/contacts/{id}', 'ContactController@show');
+Route::delete('/contacts/{id}', 'ContactController@destroy');
