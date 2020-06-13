@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import Login from './pages/Login'
 import Nav from './pages/Nav';
 import Events from './pages/Events';
 import Speakers from './pages/Speakers';

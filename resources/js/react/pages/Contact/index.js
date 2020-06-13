@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import api from '../../services/api'
 
-export default function Contact(props) {
+export default function Contact() {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
    const [comment, setComment] = useState('');
