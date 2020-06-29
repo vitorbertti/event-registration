@@ -11,8 +11,6 @@ function Events() {
         state => state.events.data[state.events.data.length - 1]
     );
 
-    console.log(eventList);
-
     const dispatch = useDispatch();
 
     const [filter, setFilter] = useState("");

@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
-import batchesReducer from "./batches";
-import socialNetworksReducer from "./socialNetworks";
 import eventReducer from "./events";
+import speakersReducer from "./speakers";
 
 const reducers = combineReducers({
-    batches: batchesReducer,
-    socialNetworks: socialNetworksReducer,
-    events: eventReducer
+    events: eventReducer,
+    speakers: speakersReducer
 });
 
 export default reducers;
